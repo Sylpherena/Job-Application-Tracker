@@ -5,10 +5,10 @@ const Navigation = () => {
   return (
     <div className="drawer">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col">
-        <div className="navbar bg-base-100">
+      <div className="drawer-content">
+        <div className="navbar p-0">
           <div className="navbar-start">
-            <div tabIndex={0} className="flex-none lg:hidden">
+            <div tabIndex={0} className="lg:hidden">
               <label
                 htmlFor="my-drawer-3"
                 aria-label="open sidebar"
@@ -20,9 +20,9 @@ const Navigation = () => {
             <a className="btn btn-ghost text-xl">Application_Tracker</a>
           </div>
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">
+            <ul className="menu menu-horizontal p-0">
               <li>
-                <a href="/home">Home</a>
+                <a href="/">Home</a>
               </li>
               <li>
                 <div className="dropdown dropdown-hover dropdown-bottom ">
@@ -31,7 +31,7 @@ const Navigation = () => {
                   }
                   <div tabIndex={0} role="button" className="flex gap-1">
                     Parent
-                    <ChevronDown />
+                    <ChevronDown className="text-primary brightness-90" />
                   </div>
                   <ul
                     tabIndex={0}
@@ -47,7 +47,7 @@ const Navigation = () => {
                 </div>
               </li>
               <li>
-                <a>Another Link</a>
+                <a href="/applications">Applications2</a>
               </li>
             </ul>
           </div>
@@ -55,6 +55,7 @@ const Navigation = () => {
             <ThemeController />
           </div>
         </div>
+        <div className="bg-primary bg-opacity-30 h-0.5 brightness-90"></div>
       </div>
       <div className="drawer-side">
         <label
@@ -62,13 +63,13 @@ const Navigation = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 min-h-full w-80 p-4">
+        <ul className="menu bg-primary min-h-full w-80 p-4 text-primary-content">
           {/* Sidebar content here */}
           <li>
-            <a>Sidebar Item 1</a>
+            <a href="/">Home</a>
           </li>
           <li>
-            <a>Sidebar Item 2</a>
+            <a href="/applications">Applications</a>
           </li>
         </ul>
       </div>
