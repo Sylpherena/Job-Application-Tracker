@@ -4,18 +4,35 @@ import Applications from "./pages/Applications";
 import Navigation from "./Navigation";
 
 function App() {
+  //const [themeMode, setThemeMode] = useState<DaisyUIThemes>("bumblebee");
+
+  // useEffect(() => {
+  //   const darkModeMediaQuery = window.matchMedia(
+  //     "(prefers-color-scheme: dark)"
+  //   );
+  //   setIsDarkMode(darkModeMediaQuery.matches);
+
+  //   const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+  //   darkModeMediaQuery.addEventListener("change", handleChange);
+
+  //   return () => darkModeMediaQuery.removeEventListener("change", handleChange);
+  // }, []);
+
+  // const toggleDarkMode = () => {
+  //   document.documentElement.classList.toggle("dark");
+  //   setIsDarkMode(!isDarkMode);
+  // };
+
   return (
-    <div>
+    <>
       <Navigation />
-      <div className="pt-16">
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/applications" element={<Applications />} />
-          </Routes>
-        </Router>
-      </div>
-    </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/applications" element={<Applications />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
