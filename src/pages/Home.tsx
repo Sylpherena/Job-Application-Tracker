@@ -1,4 +1,4 @@
-function Home() {
+export default function Home() {
   return (
     <div className="hero bg-primary bg-opacity-20 min-h-screen">
       <div className="hero-content text-center">
@@ -15,5 +15,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;
