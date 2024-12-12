@@ -5,13 +5,13 @@ import { useState } from "react";
 export default function ModalButton() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-  const toggleModal = () => {
-    setModalOpen((prev) => !prev);
+  const setModalState = (isOpen: boolean) => {
+    setModalOpen(isOpen);
   };
 
   return (
     <>
-      <button className="btn btn-primary" onClick={toggleModal}>
+      <button className="btn btn-primary" onClick={() => setModalState(true)}>
         Add Application
       </button>
       <dialog
@@ -21,7 +21,7 @@ export default function ModalButton() {
         <div className="modal-box relative">
           <button
             className="btn btn-sm btn-circle absolute right-2 top-2"
-            onClick={toggleModal}
+            onClick={() => setModalState(false)}
           >
             ✕
           </button>
@@ -29,7 +29,7 @@ export default function ModalButton() {
           <AddForm />
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button onClick={toggleModal}>close</button>
+          <button onClick={() => setModalState(false)}>close</button>
         </form>
       </dialog>
     </>

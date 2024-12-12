@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { daisyUIThemes, DaisyUIThemes } from "./themes";
+import { daisyUIThemes, DaisyUITheme } from "./themes";
 import { ThemeContext } from "./ThemeContext";
 
-const isValidTheme = (theme: string): theme is DaisyUIThemes => {
+const isValidTheme = (theme: string): theme is DaisyUITheme => {
   return daisyUIThemes.includes(theme);
 };
 
 export default function ThemeProvider(props: React.PropsWithChildren) {
   const { children } = props;
 
-  const [themeMode, setThemeMode] = useState<DaisyUIThemes>(() => {
-    return (localStorage.getItem("theme") || "light") as DaisyUIThemes;
+  const [themeMode, setThemeMode] = useState<DaisyUITheme>(() => {
+    return (localStorage.getItem("theme") || "light") as DaisyUITheme;
   });
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ThemeProvider(props: React.PropsWithChildren) {
     localStorage.setItem("theme", themeMode);
   }, [themeMode]);
 
-  const changeTheme = (theme: DaisyUIThemes) => {
+  const changeTheme = (theme: DaisyUITheme) => {
     setThemeMode(theme);
   };
 
