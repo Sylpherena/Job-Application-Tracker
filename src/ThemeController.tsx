@@ -1,7 +1,30 @@
 import { ChevronDown } from "lucide-react";
-import { daisyUIThemes } from "./themes";
+import { DaisyUIThemes, daisyUIThemes } from "./themes";
+import { ChangeEvent } from "react";
 
-export function ThemeController() {
+type Props = {
+  onChange: (theme: DaisyUIThemes) => void;
+  theme: DaisyUIThemes;
+};
+
+export function ThemeController(props: Props) {
+  const { onChange, theme } = props;
+
+  const isValidTheme = (theme: string): theme is DaisyUIThemes => {
+    return daisyUIThemes.includes(theme);
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedTheme = event.target.value as DaisyUIThemes;
+
+    if (isValidTheme(selectedTheme)) {
+      onChange(selectedTheme);
+    } else {
+      console.warn(`Invalid theme selected: ${selectedTheme}`);
+      onChange("light");
+    }
+  };
+
   return (
     <div className="dropdown mx-4 h-min">
       <div tabIndex={0} role="button" className="btn mx-2">
@@ -12,23 +35,16 @@ export function ThemeController() {
         tabIndex={0}
         className="dropdown-content bg-base-200 rounded-box z-[1] p-2 shadow-2xl overflow-y-auto max-h-64 max-w-fit"
       >
-        <li>
-          <input
-            type="radio"
-            name="theme-dropdown"
-            className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-            aria-label="Default"
-            value="default"
-          />
-        </li>
-        {daisyUIThemes.map((theme) => (
-          <li key={theme}>
+        {daisyUIThemes.map((t) => (
+          <li key={t}>
             <input
+              onChange={handleChange}
               type="radio"
               name="theme-dropdown"
               className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label={theme.charAt(0).toUpperCase() + theme.slice(1)}
-              value={theme}
+              aria-label={t.charAt(0).toUpperCase() + t.slice(1)}
+              value={t}
+              checked={t === theme}
             />
           </li>
         ))}

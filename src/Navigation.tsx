@@ -1,16 +1,22 @@
 import { AlignLeft, ChevronDown } from "lucide-react";
 import { ThemeController } from "./ThemeController";
+import { DaisyUIThemes } from "./themes";
 
-const Navigation = () => {
+type Props = {
+  onChangeTheme: (theme: DaisyUIThemes) => void;
+  theme: DaisyUIThemes;
+};
+
+const Navigation = (props: Props) => {
   return (
     <div className="drawer">
-      <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+      <input id="navigation-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <div className="navbar p-0">
           <div className="navbar-start">
             <div tabIndex={0} className="lg:hidden">
               <label
-                htmlFor="my-drawer-3"
+                htmlFor="navigation-drawer"
                 aria-label="open sidebar"
                 className="btn btn-square btn-ghost"
               >
@@ -52,14 +58,17 @@ const Navigation = () => {
             </ul>
           </div>
           <div className="navbar-end">
-            <ThemeController />
+            <ThemeController
+              onChange={props.onChangeTheme}
+              theme={props.theme}
+            />
           </div>
         </div>
         <div className="bg-primary bg-opacity-30 h-0.5 brightness-90"></div>
       </div>
       <div className="drawer-side">
         <label
-          htmlFor="my-drawer-3"
+          htmlFor="navigation-drawer"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
