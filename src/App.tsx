@@ -17,18 +17,6 @@ function App() {
     localStorage.setItem("theme", themeMode);
   }, [themeMode]);
 
-  // useEffect(() => {
-  //   const darkModeMediaQuery = window.matchMedia(
-  //     "(prefers-color-scheme: dark)"
-  //   );
-  //   setIsDarkMode(darkModeMediaQuery.matches);
-
-  //   const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
-  //   darkModeMediaQuery.addEventListener("change", handleChange);
-
-  //   return () => darkModeMediaQuery.removeEventListener("change", handleChange);
-  // }, []);
-
   const changeTheme = (theme: DaisyUIThemes) => {
     setThemeMode(theme);
   };
