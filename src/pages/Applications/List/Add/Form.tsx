@@ -1,32 +1,22 @@
 import { FieldValues, useForm } from "react-hook-form";
-import InputWithLabel from "../../components/InputWithLabel";
+import InputWithLabel from "../../../../components/InputWithLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formatDate, formSchema } from "./addFormSchema";
+import { defaultFormValues, formSchema } from "./formSchema";
 
-function AddForm() {
+export default function Form() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
   } = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      applicationDate: formatDate(new Date()),
-      position: null,
-      company: null,
-      country: null,
-      location: null,
-      cv: null,
-      coverLetter: null,
-    },
+    defaultValues: defaultFormValues,
   });
 
   const onSubmit = (data: FieldValues) => {
     // Handle form submission
     console.log(data);
   };
-  console.log(getValues());
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -34,7 +24,7 @@ function AddForm() {
         <InputWithLabel
           label="Application Date"
           type="date"
-          errorText={errors.applicationDate?.message as string}
+          errorText={errors.applicationDate?.message}
           {...register("applicationDate")}
         />
       </div>
@@ -42,13 +32,13 @@ function AddForm() {
         <InputWithLabel
           label="Position"
           placeholder="Enter position"
-          errorText={errors.position?.message as string}
+          errorText={errors.position?.message}
           {...register("position")}
         />
         <InputWithLabel
           label="Company"
           placeholder="Enter Company"
-          errorText={errors.company?.message as string}
+          errorText={errors.company?.message}
           {...register("company")}
         />
       </div>
@@ -56,33 +46,33 @@ function AddForm() {
         <InputWithLabel
           label="Country"
           placeholder="Enter position"
-          errorText={errors.country?.message as string}
+          errorText={errors.country?.message}
           {...register("country")}
         />
         <InputWithLabel
           label="Location"
           placeholder="Enter position"
-          errorText={errors.location?.message as string}
+          errorText={errors.location?.message}
           {...register("location")}
         />
       </div>
       <InputWithLabel
         label="CV"
         type="file"
-        errorText={errors.cv?.message as string}
+        errorText={errors.cv?.message}
         {...register("cv")}
       />
       <InputWithLabel
         label="Cover Letter"
         type="file"
-        errorText={errors.coverLetter?.message as string}
+        errorText={errors.coverLetter?.message}
         {...register("coverLetter")}
       />
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <div className="w-full flex justify-center p-2">
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </div>
     </form>
   );
 }
-
-export default AddForm;
