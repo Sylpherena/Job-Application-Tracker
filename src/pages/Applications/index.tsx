@@ -1,9 +1,3 @@
-import List from "./List";
+import Applications from "./Applications";
 
-export default function Applications() {
-  return (
-    <div className="flex justify-center m-8 h-[600px]">
-      <List />
-    </div>
-  );
-}
+export default Applications;

@@ -1,5 +1,5 @@
 import { FieldValues, useForm } from "react-hook-form";
-import InputWithLabel from "../../../../components/InputWithLabel";
+import InputWithLabel from "../../../components/InputWithLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultFormValues, formSchema } from "./formSchema";
 
