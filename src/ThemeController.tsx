@@ -1,14 +1,10 @@
 import { ChevronDown } from "lucide-react";
 import { DaisyUIThemes, daisyUIThemes } from "./themes";
 import { ChangeEvent } from "react";
+import { useTheme } from "./providers/theme/ThemeContext";
 
-type Props = {
-  onChange: (theme: DaisyUIThemes) => void;
-  theme: DaisyUIThemes;
-};
-
-export function ThemeController(props: Props) {
-  const { onChange, theme } = props;
+export function ThemeController() {
+  const { theme, setTheme } = useTheme();
 
   const isValidTheme = (theme: string): theme is DaisyUIThemes => {
     return daisyUIThemes.includes(theme);
@@ -18,10 +14,10 @@ export function ThemeController(props: Props) {
     const selectedTheme = event.target.value as DaisyUIThemes;
 
     if (isValidTheme(selectedTheme)) {
-      onChange(selectedTheme);
+      setTheme(selectedTheme);
     } else {
       console.warn(`Invalid theme selected: ${selectedTheme}`);
-      onChange("light");
+      setTheme("light");
     }
   };
 

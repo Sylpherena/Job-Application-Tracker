@@ -1,13 +1,7 @@
 import { AlignLeft, ChevronDown } from "lucide-react";
 import { ThemeController } from "./ThemeController";
-import { DaisyUIThemes } from "./themes";
 
-type Props = {
-  onChangeTheme: (theme: DaisyUIThemes) => void;
-  theme: DaisyUIThemes;
-};
-
-const Navigation = (props: Props) => {
+const Navigation = () => {
   return (
     <div className="drawer">
       <input id="navigation-drawer" type="checkbox" className="drawer-toggle" />
@@ -58,10 +52,7 @@ const Navigation = (props: Props) => {
             </ul>
           </div>
           <div className="navbar-end">
-            <ThemeController
-              onChange={props.onChangeTheme}
-              theme={props.theme}
-            />
+            <ThemeController />
           </div>
         </div>
         <div className="bg-primary bg-opacity-30 h-0.5 brightness-90"></div>
