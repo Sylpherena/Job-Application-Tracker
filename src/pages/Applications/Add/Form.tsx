@@ -1,21 +1,63 @@
 import { FieldValues, useForm } from "react-hook-form";
 import InputWithLabel from "../../../components/InputWithLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { defaultFormValues, formSchema } from "./formSchema";
+import {
+  defaultFormValues,
+  dummyFiles,
+  formSchema,
+  FormType,
+} from "./formSchema";
+import SelectWithUpload from "../../../components/SelectWithUpload";
+import { useState } from "react";
+import { delay } from "../../../utils/utils";
 
-export default function Form() {
+export default function Form(props: { onSubmit: () => void }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+    setValue,
+    reset,
+  } = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultFormValues,
   });
 
+  const [cvOptions, setCvOptions] = useState(dummyFiles);
+
   const onSubmit = (data: FieldValues) => {
-    // Handle form submission
+    // TODO Handle form submission
     console.log(data);
+    props.onSubmit();
+    reset();
+  };
+
+  const onCVUpload = async (file: File) => {
+    const fileToAdd = {
+      id: Date.now().toString(),
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    };
+
+    setCvOptions((options) => [...options, fileToAdd]);
+
+    await delay(500);
+    setValue("cv", fileToAdd.id);
+  };
+
+  const onCoverLetterUpload = async (file: File) => {
+    const fileToAdd = {
+      id: Date.now().toString(),
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    };
+
+    setCvOptions((options) => [...options, fileToAdd]);
+
+    await delay(500);
+    setValue("coverLetter", fileToAdd.id);
   };
 
   return (
@@ -56,16 +98,24 @@ export default function Form() {
           {...register("location")}
         />
       </div>
-      <InputWithLabel
+      <SelectWithUpload
         label="CV"
-        type="file"
         errorText={errors.cv?.message}
+        placeHolder="Choose a file"
+        options={cvOptions}
+        getOptionLabel={(file) => `${file.name}`}
+        getOptionValue={(file) => file.id}
+        onUpload={onCVUpload}
         {...register("cv")}
       />
-      <InputWithLabel
+      <SelectWithUpload
         label="Cover Letter"
-        type="file"
         errorText={errors.coverLetter?.message}
+        placeHolder="Choose a file"
+        options={cvOptions}
+        getOptionLabel={(file) => `${file.name}`}
+        getOptionValue={(file) => file.id}
+        onUpload={onCoverLetterUpload}
         {...register("coverLetter")}
       />
       <div className="w-full flex justify-center p-2">

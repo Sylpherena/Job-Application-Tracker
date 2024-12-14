@@ -8,14 +8,42 @@ function formatDate(date: Date) {
   return formattedDate;
 }
 
+// TODO delete dummy data and type after backend integration
+export const dummyFiles: DummyFile[] = [
+  { id: "1", name: "Report.pdf", size: 321344, type: "PDF" },
+  { id: "2", name: "Presentation.pptx", size: 879613, type: "PowerPoint" },
+  { id: "3", name: "Image.jpg", size: 452135, type: "Image" },
+  { id: "4", name: "Spreadsheet.xlsx", size: 886544, type: "Excel" },
+  { id: "5", name: "Document.docx", size: 877963, type: "Word Document" },
+];
+
+export interface DummyFile {
+  id: string;
+  name: string;
+  size: number;
+  type: string;
+}
+
+export interface FormType {
+  applicationDate: string;
+  position: string;
+  company: string;
+  country: string;
+  location: string;
+  cv: string;
+  cvId: string;
+  coverLetter: string;
+  coverLetterId: string;
+}
+
 export const defaultFormValues = {
   applicationDate: formatDate(new Date()),
   position: "",
   company: "",
   country: "",
   location: "",
-  cv: null,
-  coverLetter: null,
+  cv: "",
+  coverLetter: "",
 };
 
 export const formSchema = z.object({
@@ -24,26 +52,8 @@ export const formSchema = z.object({
     .nonempty({ message: "Application Date is required" }),
   company: z.string().nonempty({ message: "Company is required" }),
   position: z.string().nonempty({ message: "Position is required" }),
-  country: z.string().nonempty({ message: "Country is required" }),
-  location: z.string().nonempty({ message: "Location is required" }),
-  cv: z
-    .any()
-    .refine((files) => files?.length === 1, { message: "CV is required" })
-    .refine((files) => files?.[0]?.size <= 5 * 1024 * 1024, {
-      message: "CV must be less than 5MB",
-    })
-    .refine((files) => ["application/pdf"].includes(files?.[0]?.type), {
-      message: "CV must be a PDF",
-    }),
-  coverLetter: z
-    .any()
-    .refine((files) => files?.length === 1, {
-      message: "Cover Letter is required",
-    })
-    .refine((files) => files?.[0]?.size <= 5 * 1024 * 1024, {
-      message: "Cover Letter must be less than 5MB",
-    })
-    .refine((files) => ["application/pdf"].includes(files?.[0]?.type), {
-      message: "Cover Letter must be a PDF",
-    }),
+  country: z.string(),
+  location: z.string(),
+  cv: z.string().nonempty({ message: "CV is required" }),
+  coverLetter: z.string(),
 });
