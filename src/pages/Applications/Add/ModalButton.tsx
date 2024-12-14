@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import AddForm from "./Form";
 import { useState } from "react";
+import { CirclePlus } from "lucide-react";
 
 export default function ModalButton() {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
@@ -13,6 +14,7 @@ export default function ModalButton() {
     <>
       <button className="btn btn-primary" onClick={() => setModalState(true)}>
         Add Application
+        <CirclePlus />
       </button>
       <dialog
         id="add-app-modal"
@@ -26,7 +28,7 @@ export default function ModalButton() {
             ✕
           </button>
           <h3 className="font-bold text-lg">Add New Application</h3>
-          <AddForm />
+          <AddForm onSubmit={() => setModalState(false)} />
         </div>
         <form method="dialog" className="modal-backdrop">
           <button onClick={() => setModalState(false)}>close</button>

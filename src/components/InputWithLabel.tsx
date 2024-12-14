@@ -6,20 +6,19 @@ interface InputWithLabelProps
   className?: string;
   label?: string;
   errorText?: string;
-  showError?: boolean;
 }
 
 const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
   (props: InputWithLabelProps, ref) => {
-    const { className, errorText, label, showError, type, ...rest } = props;
-
-    const errorVisible = showError ?? !!errorText;
+    const { className, errorText, label, type, ...rest } = props;
 
     return (
       <label className={clsx("form-control w-full max-w-xs", className)}>
-        <div className="label font-semibold">
-          <span className="label-text">{label}</span>
-        </div>
+        {label && (
+          <div className="label font-semibold">
+            <span className="label-text">{label}</span>
+          </div>
+        )}
         <input
           ref={ref}
           className={clsx("w-full max-w-xs", {
@@ -33,7 +32,7 @@ const InputWithLabel = React.forwardRef<HTMLInputElement, InputWithLabelProps>(
         <div className="label p-1">
           <span
             className={clsx("label-text-alt text-error opacity-0", {
-              ["opacity-100"]: errorVisible,
+              ["opacity-100"]: !!errorText,
             })}
           >
             {errorText}
