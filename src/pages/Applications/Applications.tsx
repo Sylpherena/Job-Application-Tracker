@@ -1,11 +1,9 @@
-import Table from "./Table";
+import List from "./List";
 
-function Applications() {
+export default function Applications() {
   return (
     <div className="flex justify-center m-8 h-[600px]">
-      <Table />
+      <List />
     </div>
   );
 }
-
-export default Applications;

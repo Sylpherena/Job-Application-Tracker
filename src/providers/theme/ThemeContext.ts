@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { DaisyUIThemes } from "../../themes";
+import { DaisyUIThemes } from "./themes";
 
 export const ThemeContext = createContext<{
   theme: DaisyUIThemes;

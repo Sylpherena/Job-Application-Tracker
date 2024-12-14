@@ -1,5 +1,5 @@
 import { AlignLeft, ChevronDown } from "lucide-react";
-import { ThemeController } from "./ThemeController";
+import ThemeSelector from "./ThemeSelector";
 
 const Navigation = () => {
   return (
@@ -52,7 +52,7 @@ const Navigation = () => {
             </ul>
           </div>
           <div className="navbar-end">
-            <ThemeController />
+            <ThemeSelector />
           </div>
         </div>
         <div className="bg-primary bg-opacity-30 h-0.5 brightness-90"></div>
