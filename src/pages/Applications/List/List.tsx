@@ -1,8 +1,17 @@
+import { useCallback } from "react";
+import { getApplicationsPaginated } from "../../../localDB/dbConfig";
+import { useFetch } from "../../../utils/useFetch";
 import ModalButton from "../Add/ModalButton";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 
 export default function List() {
+  const handleFetch = useCallback(async () => {
+    const result = await getApplicationsPaginated(1, 5);
+    return result;
+  }, []);
+  const { data, loading } = useFetch(handleFetch);
+
   return (
     <div className="card w-full h-full bg-primary bg-opacity-20 border border-opacity-10 overflow-hidden">
       <div className="flex w-full justify-between p-4">
@@ -13,7 +22,8 @@ export default function List() {
         <table className="table table-zebra overflow-x-auto">
           <TableHeader />
           <tbody>
-            <TableRow />
+            {loading && <p>Loading...</p>}
+            {data?.applications?.map((d) => <TableRow data={d} />)}
           </tbody>
           {/* foot */}
           <tfoot></tfoot>

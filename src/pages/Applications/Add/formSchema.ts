@@ -30,9 +30,7 @@ export interface FormType {
   company: string;
   country: string;
   location: string;
-  cv: string;
   cvId: string;
-  coverLetter: string;
   coverLetterId: string;
 }
 
@@ -54,6 +52,6 @@ export const formSchema = z.object({
   position: z.string().nonempty({ message: "Position is required" }),
   country: z.string(),
   location: z.string(),
-  cv: z.string().nonempty({ message: "CV is required" }),
-  coverLetter: z.string(),
+  cvId: z.string(), //.nonempty({ message: "CV is required" }),
+  coverLetterId: z.string(),
 });
