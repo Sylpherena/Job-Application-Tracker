@@ -10,6 +10,9 @@ import {
 import SelectWithUpload from "../../../components/SelectWithUpload";
 import { useState } from "react";
 import { delay } from "../../../utils/utils";
+import { addApplication } from "../../../localDB/dbConfig";
+import { Application } from "../../../localDB/types";
+import useToast from "../../../components/Layout/Toast/ToastContext";
 
 export default function Form(props: { onSubmit: () => void }) {
   const {
@@ -18,18 +21,34 @@ export default function Form(props: { onSubmit: () => void }) {
     formState: { errors },
     setValue,
     reset,
+    getValues,
   } = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultFormValues,
   });
 
+  const showToast = useToast();
+  console.log(getValues());
   const [cvOptions, setCvOptions] = useState(dummyFiles);
+  const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  // const [isCVLoading, setCVLoading] = useState<boolean>(false);
+  // const [isCLLoading, setCLLoading] = useState<boolean>(false);
+  // const [CVs, setCVs] = useState<boolean>([]);
+  // const [CLs, setCLs] = useState<boolean>([]);
 
-  const onSubmit = (data: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     // TODO Handle form submission
     console.log(data);
-    props.onSubmit();
-    reset();
+    setSubmitting(true);
+    try {
+      await addApplication(data as Application);
+      props.onSubmit(); // To close modal
+      reset();
+    } catch (error) {
+      showToast((error as Error).message, "error");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const onCVUpload = async (file: File) => {
@@ -43,7 +62,7 @@ export default function Form(props: { onSubmit: () => void }) {
     setCvOptions((options) => [...options, fileToAdd]);
 
     await delay(500);
-    setValue("cv", fileToAdd.id);
+    setValue("cvId", fileToAdd.id);
   };
 
   const onCoverLetterUpload = async (file: File) => {
@@ -57,7 +76,7 @@ export default function Form(props: { onSubmit: () => void }) {
     setCvOptions((options) => [...options, fileToAdd]);
 
     await delay(500);
-    setValue("coverLetter", fileToAdd.id);
+    setValue("coverLetterId", fileToAdd.id);
   };
 
   return (
@@ -99,28 +118,35 @@ export default function Form(props: { onSubmit: () => void }) {
         />
       </div>
       <SelectWithUpload
+        isOptionsLoading={true}
         label="CV"
-        errorText={errors.cv?.message}
+        errorText={errors.cvId?.message}
         placeHolder="Choose a file"
         options={cvOptions}
         getOptionLabel={(file) => `${file.name}`}
         getOptionValue={(file) => file.id}
         onUpload={onCVUpload}
-        {...register("cv")}
+        {...register("cvId")}
       />
       <SelectWithUpload
+        isOptionsLoading={true}
         label="Cover Letter"
-        errorText={errors.coverLetter?.message}
+        errorText={errors.coverLetterId?.message}
         placeHolder="Choose a file"
         options={cvOptions}
         getOptionLabel={(file) => `${file.name}`}
         getOptionValue={(file) => file.id}
         onUpload={onCoverLetterUpload}
-        {...register("coverLetter")}
+        {...register("coverLetterId")}
       />
       <div className="w-full flex justify-center p-2">
         <button type="submit" className="btn btn-primary">
-          Submit
+          <span className="flex gap-1 items-center">
+            Submit
+            {isSubmitting && (
+              <span className="loading loading-spinner loading-sm" />
+            )}
+          </span>
         </button>
       </div>
     </form>
