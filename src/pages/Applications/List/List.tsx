@@ -1,16 +1,16 @@
-import AddNewButton from "./AddNewButton";
+import ModalButton from "../Add/ModalButton";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 
-function Table() {
+export default function List() {
   return (
     <div className="card w-full h-full bg-primary bg-opacity-20 border border-opacity-10 overflow-hidden">
       <div className="flex w-full justify-between p-4">
         <h2 className="card-title">Applications</h2>
-        <AddNewButton />
+        <ModalButton />
       </div>
       <div className="overflow-x-none bg-base-100 h-[452px]">
-        <table className="table overflow-x-auto">
+        <table className="table table-zebra overflow-x-auto">
           <TableHeader />
           <tbody>
             <TableRow />
@@ -27,5 +27,3 @@ function Table() {
     </div>
   );
 }
-
-export default Table;

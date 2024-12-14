@@ -1,4 +1,4 @@
-export type DaisyUIThemes =
+export type DaisyUITheme =
   | "light"
   | "dark"
   | "cupcake"
