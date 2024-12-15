@@ -9,12 +9,12 @@ export default function TableRow(props: Props) {
   const { data } = props;
 
   return (
-    <tr className="h-20 hover:bg-primary hover:bg-opacity-5">
-      <th>
+    <tr className="h-20 hover:bg-primary hover:bg-opacity-10">
+      <td>
         <label>
           <input type="checkbox" className="checkbox" />
         </label>
-      </th>
+      </td>
       <td>{data.applicationDate}</td>
       <td>
         <div className="font-bold">{data.company}</div>
@@ -22,22 +22,22 @@ export default function TableRow(props: Props) {
       <td>{data.position}</td>
       <td>{data.country}</td>
       <td>{data.location}</td>
-      <th>
+      <td>
         <div className="flex gap-2 items-center">
-          <p className="font-normal">{data.cvId}</p>
+          <p className="font-normal line-clamp-2">{data.cvId}</p>
           <button className="btn btn-ghost btn-sm p-1">
             <ArrowDownToLine />
           </button>
         </div>
-      </th>
-      <th>
+      </td>
+      <td>
         <div className="flex gap-2 items-center">
           <p className="font-normal">{data.coverLetterId}</p>
           <button className="btn btn-ghost btn-sm p-1">
             <ArrowDownToLine />
           </button>
         </div>
-      </th>
+      </td>
     </tr>
   );
 }

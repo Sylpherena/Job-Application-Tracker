@@ -10,8 +10,8 @@ export interface SelectWithLabelProps<T>
   emptyMessage?: string;
   placeHolder?: string;
   options?: T[]; // Options as a generic array
-  getOptionLabel?: (option: T) => string; // Function to get label from option
-  getOptionValue: (option: T) => number | string; // Function to get value from option
+  getOptionLabel?: (option: T) => string | undefined; // Function to get label from option
+  getOptionValue?: (option: T) => number | string | undefined; // Function to get value from option
 }
 
 const SelectWithLabel = <T,>(
@@ -44,11 +44,7 @@ const SelectWithLabel = <T,>(
         className="select select-primary select-sm select-bordered"
         {...rest}
       >
-        {placeHolder && (
-          <option disabled value={""}>
-            {placeHolder}
-          </option>
-        )}
+        {placeHolder && <option value={""}>{placeHolder}</option>}
         {isOptionsLoading && (
           <option disabled value={"loading-info"}>
             Loading...
@@ -60,8 +56,8 @@ const SelectWithLabel = <T,>(
           </option>
         )}
         {options?.map((o) => (
-          <option key={getOptionValue(o)} value={getOptionValue(o)}>
-            {getOptionLabel(o)}
+          <option key={getOptionValue?.(o)} value={getOptionValue?.(o)}>
+            {getOptionLabel?.(o)}
           </option>
         ))}
       </select>
