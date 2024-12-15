@@ -11,7 +11,9 @@ export interface Application {
 
 export interface FileRecord {
   id?: string; // Unique string ID
-  fileName: string;
-  fileType: string;
-  fileData: string; // Base64 or binary
+  name: string;
+  size: number;
+  type: string;
+  data: string; // Base64 or binary
+  lastModifiedDate: string;
 }
