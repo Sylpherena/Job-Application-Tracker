@@ -6,10 +6,12 @@ export interface SelectWithLabelProps<T>
   className?: string;
   label?: string;
   errorText?: string;
+  isOptionsLoading?: boolean;
+  emptyMessage?: string;
   placeHolder?: string;
   options?: T[]; // Options as a generic array
-  getOptionLabel?: (option: T) => string; // Function to get label from option
-  getOptionValue: (option: T) => string; // Function to get value from option
+  getOptionLabel?: (option: T) => string | undefined; // Function to get label from option
+  getOptionValue?: (option: T) => number | string | undefined; // Function to get value from option
 }
 
 const SelectWithLabel = <T,>(
@@ -21,6 +23,8 @@ const SelectWithLabel = <T,>(
     errorText,
     label,
     placeHolder,
+    emptyMessage = "No data found",
+    isOptionsLoading = false,
     options = [],
     getOptionValue,
     getOptionLabel = getOptionValue,
@@ -36,17 +40,24 @@ const SelectWithLabel = <T,>(
       )}
       <select
         ref={ref}
+        defaultValue={""}
         className="select select-primary select-sm select-bordered"
         {...rest}
       >
-        {placeHolder && (
-          <option disabled value="">
-            {placeHolder}
+        {placeHolder && <option value={""}>{placeHolder}</option>}
+        {isOptionsLoading && (
+          <option disabled value={"loading-info"}>
+            Loading...
+          </option>
+        )}
+        {options.length === 0 && !isOptionsLoading && (
+          <option disabled value={"no-option-found"}>
+            {emptyMessage}
           </option>
         )}
         {options?.map((o) => (
-          <option key={getOptionValue(o)} value={getOptionValue(o)}>
-            {getOptionLabel(o)}
+          <option key={getOptionValue?.(o)} value={getOptionValue?.(o)}>
+            {getOptionLabel?.(o)}
           </option>
         ))}
       </select>

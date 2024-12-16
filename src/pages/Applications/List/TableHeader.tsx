@@ -1,6 +1,6 @@
 export default function TableHeader() {
   return (
-    <thead className="bg-primary bg-opacity-10">
+    <thead className="bg-primary bg-opacity-20 text-base-content/80">
       <tr>
         <th>
           <label>

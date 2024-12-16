@@ -57,7 +57,7 @@ const Navigation = () => {
         </div>
         <div className="bg-primary bg-opacity-30 h-0.5 brightness-90"></div>
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side z-[9999]">
         <label
           htmlFor="navigation-drawer"
           aria-label="close sidebar"
