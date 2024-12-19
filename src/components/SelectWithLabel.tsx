@@ -32,7 +32,9 @@ const SelectWithLabel = <T,>(
   } = props;
 
   return (
-    <label className={clsx("form-control w-60 sm:w-xs", className)}>
+    <label
+      className={clsx("form-control w-full overflow-hidden p-1", className)}
+    >
       {label && (
         <div className="label font-semibold">
           <span className="label-text">{label}</span>

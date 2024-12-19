@@ -1,6 +1,5 @@
 import { Application } from "../../../localDB/types";
-import clsx from "clsx";
-import { formatFileName } from "../../../utils/utils";
+import FileButton from "./FileButton";
 
 type Props = {
   data: Application;
@@ -52,38 +51,10 @@ export default function TableRow(props: Props) {
         </div>
       </td>
       <td>
-        <div
-          className="flex gap-2 items-center tooltip z-[9999] justify-center"
-          data-tip={formatFileName(data.cv.name)}
-        >
-          <button
-            className="btn btn-ghost btn-sm p-1 border-base-300 w-28 inline-block"
-            onClick={onCVFileClick}
-          >
-            <p className="truncate">{data.cv.name}</p>
-          </button>
-        </div>
+        <FileButton onClick={onCVFileClick} fileName={data.cv?.name} />
       </td>
       <td>
-        <div
-          className={clsx("flex gap-2 items-center justify-center", [
-            { tooltip: !!data.coverLetter },
-          ])}
-          data-tip={
-            data.coverLetter?.name && formatFileName(data.coverLetter?.name)
-          }
-        >
-          {data.coverLetter ? (
-            <button
-              className="btn btn-ghost btn-sm p-1 border-base-300 w-28 inline-block"
-              onClick={onCLFileClick}
-            >
-              <p className="truncate">{data.coverLetter?.name}</p>
-            </button>
-          ) : (
-            "-"
-          )}
-        </div>
+        <FileButton onClick={onCLFileClick} fileName={data.coverLetter?.name} />
       </td>
     </tr>
   );
