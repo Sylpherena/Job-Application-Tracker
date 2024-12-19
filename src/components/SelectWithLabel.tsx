@@ -32,7 +32,7 @@ const SelectWithLabel = <T,>(
   } = props;
 
   return (
-    <label className={clsx("form-control w-full max-w-xs", className)}>
+    <label className={clsx("form-control w-60 sm:w-xs", className)}>
       {label && (
         <div className="label font-semibold">
           <span className="label-text">{label}</span>
@@ -41,7 +41,7 @@ const SelectWithLabel = <T,>(
       <select
         ref={ref}
         defaultValue={""}
-        className="select select-primary select-sm select-bordered"
+        className="select select-primary select-sm select-bordered min-w-full"
         {...rest}
       >
         {placeHolder && <option value={""}>{placeHolder}</option>}

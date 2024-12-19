@@ -13,7 +13,6 @@ export default function Toast(props: ToastComponentProps) {
   const { id, message, type } = toast;
 
   const classNameByType = useMemo(() => {
-    console.log(type);
     return "alert-" + type;
   }, [type]);
 

@@ -1,5 +1,5 @@
 import { openDB, DBSchema } from "idb";
-import { Application, FileRecord } from "./types";
+import { Application, ApplicationCreate, FileRecord } from "./types";
 import { v4 as uuid } from "uuid";
 
 // Define the database schema
@@ -41,9 +41,46 @@ const dbPromise = openDB<ApplicationTrackerDB>("ApplicationTrackerDB", 1, {
 });
 
 // Add a new application
-export async function addApplication(application: Application) {
+export async function addApplication(application: ApplicationCreate) {
   const db = await dbPromise;
-  return db.add("applications", { id: uuid(), ...application });
+
+  const {
+    applicationDate,
+    company,
+    country,
+    coverLetter: clFromForm,
+    cv: cvFromForm,
+    location,
+    position,
+  } = application;
+
+  const cv = await getCVById(cvFromForm.id);
+  let coverLetter = null;
+
+  if (clFromForm?.id) {
+    coverLetter = await getCoverLetterById(clFromForm.id);
+  }
+
+  return db.add("applications", {
+    id: uuid(),
+    applicationDate: applicationDate.getTime(),
+    company,
+    country,
+    location,
+    position,
+    cv: {
+      id: cv.id!,
+      name: cv.name,
+      lastModified: cv.lastModified,
+    },
+    coverLetter: coverLetter
+      ? {
+          id: coverLetter.id!,
+          name: coverLetter.name,
+          lastModified: coverLetter.lastModified,
+        }
+      : null,
+  });
 }
 
 // Add a new cvFile
@@ -127,4 +164,28 @@ export async function getApplicationById(id: string) {
   }
 
   return application;
+}
+
+// Get CV by ID
+export async function getCVById(id: string) {
+  const db = await dbPromise;
+  const cv = await db.get("cvFiles", id);
+
+  if (!cv) {
+    throw new Error(`CV with ID ${id} not found`);
+  }
+
+  return cv;
+}
+
+// Get CoverLetter by ID
+export async function getCoverLetterById(id: string) {
+  const db = await dbPromise;
+  const coverLetter = await db.get("coverLetterFiles", id);
+
+  if (!coverLetter) {
+    throw new Error(`CoverLetter with ID ${id} not found`);
+  }
+
+  return coverLetter;
 }

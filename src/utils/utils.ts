@@ -1,4 +1,5 @@
 import { FileRecord } from "../localDB/types";
+import { format } from "date-fns";
 
 //TODO Delete
 export function delay(ms: number) {
@@ -10,18 +11,10 @@ export function fileToBase64(file: File) {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
-    reader.readAsDataURL(file);
+    reader.readAsArrayBuffer(file);
   });
 
   return fileData;
-}
-
-export function formatDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
 }
 
 export async function fileToFileRecord(file: File) {
@@ -31,9 +24,50 @@ export async function fileToFileRecord(file: File) {
     name: file.name,
     size: file.size,
     type: file.type,
-    lastModifiedDate: formatDate(new Date(file.lastModified)),
+    lastModified: file.lastModified,
     data: fileData,
   };
 
   return fileRecord;
+}
+
+export function formatDate(date: number) {
+  const dateToFormat = new Date(date);
+
+  const formattedDate = format(dateToFormat, "yyyy-MM-dd");
+
+  return formattedDate;
+}
+
+export function formatDateTime(date: number) {
+  const dateToFormat = new Date(date);
+
+  const formattedDate = format(dateToFormat, "yyyy-MM-dd HH:mm");
+
+  return formattedDate;
+}
+
+export function formatFileSize(
+  bytes: number,
+  decimalPlaces: number = 1
+): string {
+  if (bytes === 0) return "0 Bytes";
+
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const size = parseFloat((bytes / Math.pow(k, i)).toFixed(decimalPlaces));
+
+  return `${size} ${sizes[i]}`;
+}
+
+export function formatFileName(name: string): string {
+  let formattedName = "";
+  const extension = name.slice(name.lastIndexOf(".") + 1, name.length);
+  if (name.length > 30) {
+    const nameWithoutExtension = name.replace(extension, "");
+    formattedName = nameWithoutExtension.slice(0, 30);
+    return `${formattedName}...${extension}`;
+  }
+  return name;
 }
