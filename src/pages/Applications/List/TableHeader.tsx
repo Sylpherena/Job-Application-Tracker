@@ -10,10 +10,18 @@ export default function TableHeader() {
         <th>App. Date</th>
         <th>Company</th>
         <th>Position</th>
-        <th>Country</th>
-        <th>Location</th>
-        <th>CV</th>
-        <th>Cover Letter</th>
+        <th>
+          <div className="flex justify-center items-center">Country</div>
+        </th>
+        <th>
+          <div className="flex justify-center items-center">Location</div>
+        </th>
+        <th>
+          <div className="flex justify-center items-center">CV</div>
+        </th>
+        <th>
+          <div className="flex justify-center items-center">Cover Letter</div>
+        </th>
       </tr>
     </thead>
   );

@@ -13,7 +13,6 @@ function App() {
       <ToastProvider>
         <QueryProvider>
           <ReactQueryDevtools initialIsOpen={false} />
-
           <Navigation />
           <Router>
             <Routes>

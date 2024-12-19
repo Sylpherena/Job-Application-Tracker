@@ -1,6 +1,7 @@
 import { openDB, DBSchema } from "idb";
-import { Application, FileRecord } from "./types";
+import { Application, ApplicationCreate, FileRecord } from "./types";
 import { v4 as uuid } from "uuid";
+import { delay } from "../utils/utils";
 
 // Define the database schema
 interface ApplicationTrackerDB extends DBSchema {
@@ -41,19 +42,59 @@ const dbPromise = openDB<ApplicationTrackerDB>("ApplicationTrackerDB", 1, {
 });
 
 // Add a new application
-export async function addApplication(application: Application) {
+export async function addApplication(application: ApplicationCreate) {
   const db = await dbPromise;
-  return db.add("applications", { id: uuid(), ...application });
+  await delay(500);
+
+  const {
+    applicationDate,
+    company,
+    country,
+    coverLetter: clFromForm,
+    cv: cvFromForm,
+    location,
+    position,
+  } = application;
+
+  const cv = await getCVById(cvFromForm.id);
+  let coverLetter = null;
+
+  if (clFromForm?.id) {
+    coverLetter = await getCoverLetterById(clFromForm.id);
+  }
+
+  return db.add("applications", {
+    id: uuid(),
+    applicationDate: applicationDate.getTime(),
+    company,
+    country,
+    location,
+    position,
+    cv: {
+      id: cv.id!,
+      name: cv.name,
+      lastModified: cv.lastModified,
+    },
+    coverLetter: coverLetter
+      ? {
+          id: coverLetter.id!,
+          name: coverLetter.name,
+          lastModified: coverLetter.lastModified,
+        }
+      : null,
+  });
 }
 
 // Add a new cvFile
 export async function addCVFile(file: FileRecord) {
   const db = await dbPromise;
+  await delay(500);
   return db.add("cvFiles", { id: uuid(), ...file });
 }
 // Add a new coverLetterFile
 export async function addCoverLetterFile(file: FileRecord) {
   const db = await dbPromise;
+  await delay(500);
   return db.add("coverLetterFiles", { id: uuid(), ...file });
 }
 
@@ -67,6 +108,7 @@ export async function getApplicationsPaginated(page: number, limit: number) {
   const totalApplications = await store.count(); // Total number of applications
 
   if (totalApplications === 0) {
+    await delay(500);
     return {
       applications: [],
       currentPage: 1,
@@ -97,6 +139,7 @@ export async function getApplicationsPaginated(page: number, limit: number) {
     cursor = await cursor.continue();
   }
 
+  await delay(500);
   return {
     applications,
     currentPage: page,
@@ -108,18 +151,21 @@ export async function getApplicationsPaginated(page: number, limit: number) {
 // Fetch cvFiles
 export async function getCVFiles() {
   const db = await dbPromise;
+  await delay(500);
   return db.getAll("cvFiles");
 }
 
 // Fetch coverLetterFiles
 export async function getCoverLetterFiles() {
   const db = await dbPromise;
+  await delay(500);
   return db.getAll("coverLetterFiles");
 }
 
 // Get Application by ID
 export async function getApplicationById(id: string) {
   const db = await dbPromise;
+  await delay(500);
   const application = await db.get("applications", id);
 
   if (!application) {
@@ -127,4 +173,30 @@ export async function getApplicationById(id: string) {
   }
 
   return application;
+}
+
+// Get CV by ID
+export async function getCVById(id: string) {
+  const db = await dbPromise;
+  await delay(500);
+  const cv = await db.get("cvFiles", id);
+
+  if (!cv) {
+    throw new Error(`CV with ID ${id} not found`);
+  }
+
+  return cv;
+}
+
+// Get CoverLetter by ID
+export async function getCoverLetterById(id: string) {
+  const db = await dbPromise;
+  await delay(500);
+  const coverLetter = await db.get("coverLetterFiles", id);
+
+  if (!coverLetter) {
+    throw new Error(`CoverLetter with ID ${id} not found`);
+  }
+
+  return coverLetter;
 }

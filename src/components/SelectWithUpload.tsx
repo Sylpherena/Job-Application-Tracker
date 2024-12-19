@@ -29,34 +29,32 @@ const SelectWithUpload = <T,>(
   };
 
   return (
-    <div className={clsx("flex items-end", className)}>
+    <div className={clsx("flex items-end w-60 sm:w-80", className)}>
       <SelectWithLabel
         ref={ref}
         placeHolder="No file selected"
-        className={clsx("form-control w-full max-w-xs", className)}
+        className={clsx("form-control", className)}
         {...rest}
       />
-      <div className="flex flex-col">
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          onChange={handleFileChange}
-        />
-        <button
-          type="button"
-          className="btn btn-primary btn-sm mx-2 mb-8"
-          onClick={handleButtonClick}
-        >
-          <span className="flex gap-1 items-center">
-            Add File
-            <Plus className="size-4" strokeWidth={3} />
-            {isUploading && (
-              <span className="loading loading-spinner loading-sm" />
-            )}
-          </span>
-        </button>
-      </div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+      <button
+        type="button"
+        className="btn btn-primary btn-sm mx-2 mb-9"
+        onClick={handleButtonClick}
+      >
+        <span className="flex gap-1 items-center">
+          <span className="hidden sm:visible">Add File</span>
+          <Plus className="size-4" strokeWidth={3} />
+          {isUploading && (
+            <span className="loading loading-spinner loading-sm" />
+          )}
+        </span>
+      </button>
     </div>
   );
 };
