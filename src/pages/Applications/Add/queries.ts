@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Application, FileRecord } from "../../../localDB/types";
+import { ApplicationCreate, FileRecord } from "../../../localDB/types";
 import {
   addApplication,
   addCoverLetterFile,
@@ -12,7 +12,7 @@ export const useAddApplicationMutation = (onSuccess: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Application) => addApplication(data),
+    mutationFn: (data: ApplicationCreate) => addApplication(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["applications"] });
 

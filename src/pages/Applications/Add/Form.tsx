@@ -1,10 +1,14 @@
 import { FieldValues, useForm } from "react-hook-form";
 import InputWithLabel from "../../../components/InputWithLabel";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { defaultFormValues, formSchema, FormType } from "./formSchema";
+import {
+  defaultFormValues,
+  formSchema,
+  ApplicationFormType,
+} from "./formSchema";
 import SelectWithUpload from "../../../components/SelectWithUpload";
-import { fileToFileRecord } from "../../../utils/utils";
-import { Application } from "../../../localDB/types";
+import { fileToFileRecord, formatFileName } from "../../../utils/utils";
+import { ApplicationCreate } from "../../../localDB/types";
 import {
   useAddApplicationMutation,
   useAddCLMutation,
@@ -20,7 +24,7 @@ export default function Form(props: { onSubmit: () => void }) {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormType>({
+  } = useForm<ApplicationFormType>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultFormValues,
   });
@@ -50,7 +54,7 @@ export default function Form(props: { onSubmit: () => void }) {
   const { data: cls, isLoading: isCLsLoading } = useCLs();
 
   const onSubmit = async (data: FieldValues) => {
-    mutateApplications(data as Application);
+    mutateApplications(data as ApplicationCreate);
   };
 
   const onCVUpload = async (file: File) => {
@@ -67,15 +71,16 @@ export default function Form(props: { onSubmit: () => void }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-control p-2">
+      <div className="form-control p-1 sm:p-2">
+        {/*TODO show today as default*/}
         <InputWithLabel
           label="Application Date"
           type="date"
           errorText={errors.applicationDate?.message}
-          {...register("applicationDate")}
+          {...register("applicationDate", { valueAsDate: true })}
         />
       </div>
-      <div className="flex w-full gap-4">
+      <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
         <InputWithLabel
           label="Position"
           placeholder="Enter position"
@@ -89,7 +94,7 @@ export default function Form(props: { onSubmit: () => void }) {
           {...register("company")}
         />
       </div>
-      <div className="flex w-full gap-4">
+      <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
         <InputWithLabel
           label="Country"
           placeholder="Enter position"
@@ -107,23 +112,23 @@ export default function Form(props: { onSubmit: () => void }) {
         isUploading={isCVsPending}
         isOptionsLoading={isCvsLoading}
         label="CV"
-        errorText={errors.cvId?.message}
+        errorText={errors.cv?.id?.message}
         options={cvs}
-        getOptionLabel={(file) => `${file.name}`}
+        getOptionLabel={(file) => formatFileName(file.name)}
         getOptionValue={(file) => file.id}
         onUpload={onCVUpload}
-        {...register("cvId")}
+        {...register("cv.id")}
       />
       <SelectWithUpload
         isUploading={isCLsPending}
         isOptionsLoading={isCLsLoading}
         label="Cover Letter"
-        errorText={errors.coverLetterId?.message}
+        errorText={errors.coverLetter?.id?.message}
         options={cls}
-        getOptionLabel={(file) => `${file.name}`}
+        getOptionLabel={(file) => formatFileName(file.name)}
         getOptionValue={(file) => file.id}
         onUpload={onCLUpload}
-        {...register("coverLetterId")}
+        {...register("coverLetter.id")}
       />
       <div className="w-full flex justify-center p-2">
         <button type="submit" className="btn btn-primary">
