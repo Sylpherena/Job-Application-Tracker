@@ -29,7 +29,7 @@ const SelectWithUpload = <T,>(
   };
 
   return (
-    <div className={clsx("flex items-end max-w-xs", className)}>
+    <div className={clsx("flex items-end w-60 sm:w-80", className)}>
       <SelectWithLabel
         ref={ref}
         placeHolder="No file selected"
@@ -44,7 +44,7 @@ const SelectWithUpload = <T,>(
       />
       <button
         type="button"
-        className="btn btn-primary btn-sm mx-2 mb-8"
+        className="btn btn-primary btn-sm mx-2 mb-9"
         onClick={handleButtonClick}
       >
         <span className="flex gap-1 items-center">

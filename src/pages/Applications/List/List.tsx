@@ -4,11 +4,11 @@ import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 import { usePaginatedApplications } from "./queries";
 import Pagination from "./Pagination";
-import FileModal, { FileModalType, FileType } from "./FileModal";
+import FileModal, { FileModalState, FileType } from "./FileModal";
 
 export default function List() {
   const [page, setPage] = useState(1);
-  const [modalState, setModalState] = useState<FileModalType | null>(null);
+  const [modalState, setModalState] = useState<FileModalState | null>(null);
 
   const limit = 5; // Number of items per page
 
@@ -22,7 +22,7 @@ export default function List() {
     setPage((prev) => prev + 1);
   };
 
-  const handleModalOpen = (state: FileModalType) => {
+  const handleModalOpen = (state: FileModalState) => {
     setModalState(state);
   };
 

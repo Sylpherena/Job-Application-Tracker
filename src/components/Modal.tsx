@@ -18,10 +18,7 @@ export default function Modal(props: ModalProps) {
   } = props;
 
   return (
-    <dialog
-      id="add-app-modal"
-      className={clsx("modal", isOpen && "modal-open", className)}
-    >
+    <dialog className={clsx("modal", isOpen && "modal-open", className)}>
       <div className="modal-box p-4 sm:p-6 relative">
         <button
           className="btn btn-sm btn-circle absolute right-2 top-2"

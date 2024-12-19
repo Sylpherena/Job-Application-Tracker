@@ -6,21 +6,21 @@ import { formatFileName, formatFileSize } from "../../../utils/utils";
 
 export type FileType = "cl" | "cv";
 
-export interface FileModalType {
+export interface FileModalState {
   id?: string;
   type?: FileType;
   link?: string;
 }
 
-interface FileModalCompProps {
-  modalState: FileModalType | null;
+interface FileModalProps {
+  modalState: FileModalState | null;
   onChange: () => void;
 }
 
-export default function FileModal(props: FileModalCompProps) {
+export default function FileModal(props: FileModalProps) {
   const { onChange, modalState } = props;
 
-  const { isLoading, data: file } = useFileData(modalState);
+  const { isLoading, data: fileData } = useFileData(modalState);
 
   return (
     <Modal isOpen={!!modalState?.id} onModalStateChange={onChange}>
@@ -34,7 +34,7 @@ export default function FileModal(props: FileModalCompProps) {
                 [{ "skeleton h-5 w-full": isLoading }]
               )}
             >
-              {file?.name && formatFileName(file?.name)}
+              {fileData?.name && formatFileName(fileData?.name)}
             </p>
           </span>
           <span className="flex flex-col gap-2">
@@ -43,24 +43,24 @@ export default function FileModal(props: FileModalCompProps) {
                 { "skeleton h-5": isLoading },
               ])}
             >
-              {file?.lastModified &&
-                new Date(file?.lastModified).toLocaleString()}
+              {fileData?.lastModified &&
+                new Date(fileData?.lastModified).toLocaleString()}
             </p>
             <p
               className={clsx("label-text text-primary-content", [
                 { "skeleton h-5": isLoading },
               ])}
             >
-              {file?.size && formatFileSize(file?.size)}
+              {fileData?.size && formatFileSize(fileData?.size)}
             </p>
           </span>
         </div>
         <a
           className={clsx("btn btn-primary rounded-full h-14 w-14", [
-            { "btn-disabled": isLoading || !file?.link },
+            { "btn-disabled": isLoading || !fileData?.link },
           ])}
-          href={file?.link}
-          download={file?.name}
+          href={fileData?.link}
+          download={fileData?.name}
         >
           <ArrowDownToLine />
         </a>

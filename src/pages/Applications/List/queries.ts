@@ -5,8 +5,7 @@ import {
   getCVById,
 } from "../../../localDB/dbConfig";
 import { FileRecord } from "../../../localDB/types";
-import { FileModalType } from "./FileModal";
-import { delay } from "../../../utils/utils";
+import { FileModalState } from "./FileModal";
 
 export const usePaginatedApplications = (page: number, limit: number) => {
   return useQuery({
@@ -15,7 +14,7 @@ export const usePaginatedApplications = (page: number, limit: number) => {
   });
 };
 
-export const useFileData = (fileData: FileModalType | null) => {
+export const useFileData = (fileData: FileModalState | null) => {
   const { id, link, type } = fileData ?? {};
   return useQuery({
     queryKey: ["fileInfo", id, type, link],
@@ -29,11 +28,14 @@ export const useFileData = (fileData: FileModalType | null) => {
       }
 
       let createdLink: string | undefined;
-      if (!link) {
+
+      if (link) {
+        return file;
+      } else {
         const blob = new Blob([file.data], { type: file.type });
         createdLink = URL.createObjectURL(blob);
       }
-      await delay(500);
+
       return { ...file, link: link ?? createdLink };
     },
     enabled: !!id,
