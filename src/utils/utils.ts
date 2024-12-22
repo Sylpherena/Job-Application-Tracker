@@ -1,5 +1,4 @@
 import { FileRecord } from "../localDB/types";
-import { format } from "date-fns";
 
 //TODO Delete
 export function delay(ms: number) {
@@ -29,22 +28,6 @@ export async function fileToFileRecord(file: File) {
   };
 
   return fileRecord;
-}
-
-export function formatDate(date: number) {
-  const dateToFormat = new Date(date);
-
-  const formattedDate = format(dateToFormat, "yyyy-MM-dd");
-
-  return formattedDate;
-}
-
-export function formatDateTime(date: number) {
-  const dateToFormat = new Date(date);
-
-  const formattedDate = format(dateToFormat, "yyyy-MM-dd HH:mm");
-
-  return formattedDate;
 }
 
 export function formatFileSize(

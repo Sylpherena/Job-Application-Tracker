@@ -1,5 +1,5 @@
 import { FieldValues, useForm } from "react-hook-form";
-import InputWithLabel from "../../../components/InputWithLabel";
+import Input from "../../../components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   defaultFormValues,
@@ -73,38 +73,44 @@ export default function Form(props: { onSubmit: () => void }) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-control p-1 sm:p-2">
         {/*TODO show today as default*/}
-        <InputWithLabel
+        <Input
+          className="max-w-xs"
           label="Application Date"
           type="date"
+          inputSize="sm"
           errorText={errors.applicationDate?.message}
           {...register("applicationDate", { valueAsDate: true })}
         />
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
-        <InputWithLabel
+        <Input
           label="Position"
           placeholder="Enter position"
           errorText={errors.position?.message}
+          inputSize="sm"
           {...register("position")}
         />
-        <InputWithLabel
+        <Input
           label="Company"
           placeholder="Enter Company"
           errorText={errors.company?.message}
+          inputSize="sm"
           {...register("company")}
         />
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
-        <InputWithLabel
+        <Input
           label="Country"
           placeholder="Enter position"
           errorText={errors.country?.message}
+          inputSize="sm"
           {...register("country")}
         />
-        <InputWithLabel
+        <Input
           label="Location"
           placeholder="Enter position"
           errorText={errors.location?.message}
+          inputSize="sm"
           {...register("location")}
         />
       </div>

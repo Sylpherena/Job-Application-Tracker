@@ -28,13 +28,13 @@ export default function List() {
 
   return (
     <>
-      <div className="card w-full h-full bg-primary bg-opacity-30 border border-opacity-10 overflow-hidden">
+      <div className="card w-full h-full min-h-fit bg-primary bg-opacity-30 border border-opacity-10 overflow-hidden">
         <div className="flex w-full justify-between p-4">
           <h2 className="card-title">Applications</h2>
           <ModalButton />
         </div>
-        <div className="overflow-x-auto bg-base-100 h-[29rem]">
-          <table className="table overflow-x-auto overflow-y-none">
+        <div className="overflow-x-auto bg-base-100">
+          <table className="table min-h-[29rem]">
             <TableHeader />
             <tbody>
               {isLoading && (
@@ -57,10 +57,12 @@ export default function List() {
                   }
                 />
               ))}
+              <tr className="flex-1 h-full" />
             </tbody>
           </table>
         </div>
         <Pagination
+          disabled={isLoading}
           page={page}
           totalPages={data?.totalPages}
           onNext={handleNext}
