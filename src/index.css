@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tab {
+  --tab-border-color: var(
+    --fallback-p,
+    oklch(var(--p) / var(--tw-border-opacity, 1))
+  );
+}
+
+.tab-content {
+  border-color: var(
+    --fallback-p,
+    oklch(var(--p) / var(--tw-border-opacity, 1))
+  );
+}
