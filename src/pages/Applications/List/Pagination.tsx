@@ -3,14 +3,15 @@ interface PaginationProps {
   totalPages?: number;
   onPrev: () => void;
   onNext: () => void;
+  disabled: boolean;
 }
 
 export default function Pagination(props: PaginationProps) {
-  const { page, totalPages = 1, onPrev, onNext } = props;
+  const { page, totalPages = 1, onPrev, onNext, disabled } = props;
   return (
     <div className="join w-full flex justify-center p-2">
       <button
-        disabled={page === 1}
+        disabled={page === 1 || disabled}
         className="join-item btn bg-base-100"
         onClick={onPrev}
       >
@@ -21,7 +22,7 @@ export default function Pagination(props: PaginationProps) {
       </button>
       <button
         className="join-item btn bg-base-100"
-        disabled={totalPages === page}
+        disabled={totalPages === page || disabled}
         onClick={onNext}
       >
         »

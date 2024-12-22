@@ -6,6 +6,7 @@ import ThemeProvider from "./providers/theme/ThemeProvider";
 import ToastProvider from "./providers/Toast/ToastProvider";
 import QueryProvider from "./providers/QueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Authentication from "./pages/Authentication";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/applications" element={<Applications />} />
+              <Route path="/authentication/:tab" element={<Authentication />} />
             </Routes>
           </Router>
         </QueryProvider>
