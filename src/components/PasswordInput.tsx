@@ -1,6 +1,7 @@
 import { Eye, EyeClosed, KeyRound, LucideIcon } from "lucide-react";
 import React, { useState } from "react";
 import Input, { InputProps } from "./Input";
+import clsx from "clsx";
 
 export interface PasswordInputProps extends InputProps {
   className?: string;
@@ -15,7 +16,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
     const [isPasswordShown, setPasswordShown] = useState<boolean>(false);
 
     const handleShowPassword = (
-      e: React.MouseEvent<HTMLInputElement, MouseEvent>
+      e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
       e.stopPropagation();
       setPasswordShown((prev) => !prev);
@@ -27,16 +28,20 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
         placeholder={placeholder}
         type={isPasswordShown ? "text" : "password"}
         endSlot={
-          <label className="swap swap-rotate z-20">
-            {/* this hidden checkbox controls the state */}
-            <input type="checkbox" onClick={(e) => handleShowPassword(e)} />
+          <div
+            aria-label="Show password"
+            className={clsx("swap swap-rotate z-20", [
+              { "swap-active": isPasswordShown },
+            ])}
+            onClick={(e) => handleShowPassword(e)}
+          >
             <div className="swap-off">
               <EyeClosed />
             </div>
             <div className="swap-on">
               <Eye />
             </div>
-          </label>
+          </div>
         }
         ref={ref}
         {...rest}

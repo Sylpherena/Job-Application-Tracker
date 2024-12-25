@@ -16,8 +16,17 @@ export default function ThemeSelector() {
   };
 
   return (
-    <div className="dropdown h-min z-50">
-      <div tabIndex={0} role="button" className="btn mx-2 btn-sm flex">
+    <div
+      aria-labelledby="theme-selector-button"
+      className="dropdown h-min z-50"
+    >
+      <div
+        id="theme-selector-button"
+        aria-label="Theme Selector"
+        tabIndex={0}
+        role="button"
+        className="btn mx-2 btn-sm flex"
+      >
         <span className="flex gap-1 items-center justify-center">
           {formatThemeName(theme) ?? "Theme"}
           <ChevronDown />
@@ -33,7 +42,7 @@ export default function ThemeSelector() {
               onChange={handleChange}
               type="radio"
               name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+              className="theme-controller btn btn-sm btn-ghost justify-start"
               aria-label={formatThemeName(t)}
               value={t}
               checked={t === theme}

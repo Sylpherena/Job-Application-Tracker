@@ -17,9 +17,22 @@ function App() {
           <Navigation />
           <Router>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/applications" element={<Applications />} />
-              <Route path="/authentication/:tab" element={<Authentication />} />
+              <Route index element={<Home />} />
+              <Route path="applications" element={<Applications />} />
+              <Route path="authentication">
+                <Route
+                  path="sign-in"
+                  element={<Authentication pageParam="sign-in" />}
+                />
+                <Route
+                  path="sign-up"
+                  element={<Authentication pageParam="sign-up" />}
+                />
+                <Route
+                  path="forgot-password"
+                  element={<Authentication pageParam="forgot-password" />}
+                />
+              </Route>
             </Routes>
           </Router>
         </QueryProvider>

@@ -27,9 +27,15 @@ export default function Signup() {
   };
 
   return (
-    <div role="tabpanel" className="tab-content bg-base-100 rounded-box p-6">
+    <div
+      id="sign-up-panel"
+      aria-labelledby="sign-up-tab"
+      role="tabpanel"
+      className="tab-content bg-base-100 rounded-box p-6"
+    >
       <div className="flex flex-col gap-4">
         <Input
+          id="sign-up-name"
           Icon={UserRound}
           placeholder="Name"
           type="text"
@@ -37,6 +43,7 @@ export default function Signup() {
           {...register("name")}
         />
         <Input
+          id="sign-up-email"
           Icon={Mail}
           placeholder="Email"
           type="text"
@@ -44,11 +51,12 @@ export default function Signup() {
           {...register("email")}
         />
         <PasswordInput
+          id="sign-up-password"
           errorText={errors.password?.message}
           {...register("password")}
         />
         <a
-          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap"
+          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min"
           href="/authentication/forgot-password"
         >
           Forgot Password?
