@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export interface ApplicationFormType {
-  applicationDate: Date;
+  applicationDate: string;
   position: string;
   company: string;
   country: string;
@@ -11,7 +11,7 @@ export interface ApplicationFormType {
 }
 
 export const defaultFormValues = {
-  applicationDate: new Date(),
+  applicationDate: new Date().toISOString().slice(0, 10),
   position: "",
   company: "",
   country: "",
