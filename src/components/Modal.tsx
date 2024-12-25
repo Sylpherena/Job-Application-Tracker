@@ -21,6 +21,7 @@ export default function Modal(props: ModalProps) {
     <dialog className={clsx("modal", isOpen && "modal-open", className)}>
       <div className="modal-box p-4 sm:p-6 relative">
         <button
+          aria-label="Return to previous page"
           className="btn btn-sm btn-circle absolute right-2 top-2"
           onClick={() => onModalStateChange(false)}
         >
@@ -30,7 +31,12 @@ export default function Modal(props: ModalProps) {
         {children}
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button onClick={() => onModalStateChange(false)}>close</button>
+        <button
+          aria-label="Return to previous page"
+          onClick={() => onModalStateChange(false)}
+        >
+          Close
+        </button>
       </form>
     </dialog>
   );

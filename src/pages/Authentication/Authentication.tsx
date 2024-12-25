@@ -1,9 +1,13 @@
-import { useParams } from "react-router-dom";
 import AuthenticationTabs from "./AuthenticationTabs";
 import ForgotPassword from "./Forms/ForgotPassword";
 
-export default function Authentication() {
-  const { tab } = useParams();
+interface AuthenticationProps {
+  pageParam: "sign-in" | "sign-up" | "forgot-password";
+}
+
+export default function Authentication(props: AuthenticationProps) {
+  const { pageParam = "sign-in" } = props;
+
   return (
     <div className="flex flex-1 h-full min-h-screen bg-primary/20 overflow-auto">
       <div className="hidden lg:flex w-1/2 bg-base-100 items-center justify-center p-12">
@@ -19,10 +23,10 @@ export default function Authentication() {
         </div>
       </div>
       <div className="flex items-center justify-center w-full lg:w-1/2 p-4">
-        {tab === "forgot-password" ? (
+        {pageParam === "forgot-password" ? (
           <ForgotPassword />
         ) : (
-          <AuthenticationTabs />
+          <AuthenticationTabs pageParam={pageParam} />
         )}
       </div>
     </div>

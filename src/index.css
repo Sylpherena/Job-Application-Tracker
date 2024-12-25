@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* tab and tab-content border-color overwritten for better visibility on authentication pages*/
 .tab {
   --tab-border-color: var(
     --fallback-p,

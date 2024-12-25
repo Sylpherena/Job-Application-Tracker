@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   defaultForgotEmailFormValues,
-  emailSchema,
   ForgotEmailFormType,
+  forgotPasswordSchema,
 } from "./authenticationSchemas";
 
 export default function ForgotPassword() {
@@ -17,7 +17,7 @@ export default function ForgotPassword() {
     formState: { errors },
     reset,
   } = useForm<ForgotEmailFormType>({
-    resolver: zodResolver(emailSchema),
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: defaultForgotEmailFormValues,
   });
 
@@ -31,6 +31,7 @@ export default function ForgotPassword() {
     <div className="card border border-primary bg-base-100 p-4 lg:p-10 shadow-md max-w-lg w-fit lg:mx-16 lg:w-full h-fit z-[1]">
       <div className="bg-base-100 rounded-box p-6">
         <button
+          aria-label="Go to sign in page"
           className="btn btn-sm btn-circle absolute left-2 top-2"
           onClick={() => {
             navigate("/authentication/sign-in");
@@ -47,6 +48,7 @@ export default function ForgotPassword() {
             that e-mail.
           </p>
           <Input
+            id="forgot-password-email"
             Icon={Mail}
             placeholder="Email"
             type="text"

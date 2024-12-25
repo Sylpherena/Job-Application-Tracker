@@ -14,7 +14,6 @@ export default function Signin() {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm<SignInFormType>({
     resolver: zodResolver(signInSchema),
@@ -26,9 +25,15 @@ export default function Signin() {
   };
 
   return (
-    <div role="tabpanel" className="tab-content bg-base-100 rounded-box p-6">
+    <div
+      id="sign-in-panel"
+      aria-labelledby="sign-in-tab"
+      role="tabpanel"
+      className="tab-content bg-base-100 rounded-box p-6"
+    >
       <div className="flex flex-col gap-4">
         <Input
+          id="sign-in-email"
           Icon={Mail}
           placeholder="Email"
           type="text"
@@ -36,11 +41,12 @@ export default function Signin() {
           {...register("email")}
         />
         <PasswordInput
+          id="sign-in-password"
           errorText={errors.password?.message}
           {...register("password")}
         />
         <a
-          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap"
+          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min"
           href="/authentication/forgot-password"
         >
           Forgot Password?

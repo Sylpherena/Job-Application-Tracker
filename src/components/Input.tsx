@@ -16,6 +16,7 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props: InputProps, ref) => {
     const {
+      id,
       className,
       errorText,
       label,
@@ -24,8 +25,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       Icon,
       inputSize = "md",
       endSlot,
+      placeholder,
       ...rest
     } = props;
+
+    const ariaName = label ?? placeholder;
 
     return (
       <label className={clsx("form-control grow", className)}>
@@ -49,7 +53,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               className="opacity-30 text-base-300 fill-base-content"
             />
           )}
-          <input ref={ref} type={type} className="grow" {...rest} />
+          <input
+            aria-label={"Enter " + ariaName}
+            aria-invalid={!!errorText}
+            aria-errormessage={id + "-error"}
+            ref={ref}
+            id={id + "-input"}
+            type={type}
+            className="grow"
+            placeholder={placeholder}
+            {...rest}
+          />
           {endSlot && endSlot}
         </label>
         <div className="label p-1">
@@ -57,6 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={clsx("label-text-alt text-error opacity-0", {
               ["opacity-100"]: !!errorText,
             })}
+            id={id + "-error"}
           >
             {errorText}
           </span>
