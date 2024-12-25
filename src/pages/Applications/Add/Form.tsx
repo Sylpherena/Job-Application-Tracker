@@ -1,5 +1,5 @@
 import { FieldValues, useForm } from "react-hook-form";
-import InputWithLabel from "../../../components/InputWithLabel";
+import Input from "../../../components/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   defaultFormValues,
@@ -73,42 +73,50 @@ export default function Form(props: { onSubmit: () => void }) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-control p-1 sm:p-2">
         {/*TODO show today as default*/}
-        <InputWithLabel
+        <Input
+          id="add-form-application-date"
+          className="max-w-xs"
           label="Application Date"
           type="date"
+          inputSize="sm"
           errorText={errors.applicationDate?.message}
           {...register("applicationDate", { valueAsDate: true })}
         />
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
-        <InputWithLabel
+        <Input
+          id="add-form-position"
           label="Position"
-          placeholder="Enter position"
           errorText={errors.position?.message}
+          inputSize="sm"
           {...register("position")}
         />
-        <InputWithLabel
+        <Input
+          id="add-form-company"
           label="Company"
-          placeholder="Enter Company"
           errorText={errors.company?.message}
+          inputSize="sm"
           {...register("company")}
         />
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
-        <InputWithLabel
+        <Input
+          id="add-form-country"
           label="Country"
-          placeholder="Enter position"
           errorText={errors.country?.message}
+          inputSize="sm"
           {...register("country")}
         />
-        <InputWithLabel
+        <Input
+          id="add-form-location"
           label="Location"
-          placeholder="Enter position"
           errorText={errors.location?.message}
+          inputSize="sm"
           {...register("location")}
         />
       </div>
       <SelectWithUpload
+        id="add-form-cv"
         isUploading={isCVsPending}
         isOptionsLoading={isCvsLoading}
         label="CV"
@@ -120,6 +128,7 @@ export default function Form(props: { onSubmit: () => void }) {
         {...register("cv.id")}
       />
       <SelectWithUpload
+        id="add-form-cover-letter"
         isUploading={isCLsPending}
         isOptionsLoading={isCLsLoading}
         label="Cover Letter"
@@ -131,11 +140,18 @@ export default function Form(props: { onSubmit: () => void }) {
         {...register("coverLetter.id")}
       />
       <div className="w-full flex justify-center p-2">
-        <button type="submit" className="btn btn-primary">
+        <button
+          aria-label="Submit application"
+          type="submit"
+          className="btn btn-primary"
+        >
           <span className="flex gap-1 items-center">
             Submit
             {isApplicationsPending && (
-              <span className="loading loading-spinner loading-sm" />
+              <span
+                aria-label="Adding application, please wait"
+                className="loading loading-spinner loading-sm"
+              />
             )}
           </span>
         </button>

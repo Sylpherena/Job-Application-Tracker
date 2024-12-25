@@ -8,7 +8,7 @@ export interface SelectWithLabelProps<T>
   errorText?: string;
   isOptionsLoading?: boolean;
   emptyMessage?: string;
-  placeHolder?: string;
+  placeholderName?: string;
   options?: T[]; // Options as a generic array
   getOptionLabel?: (option: T) => string | undefined; // Function to get label from option
   getOptionValue?: (option: T) => number | string | undefined; // Function to get value from option
@@ -19,10 +19,11 @@ const SelectWithLabel = <T,>(
   ref: React.Ref<HTMLSelectElement>
 ) => {
   const {
+    id,
     className,
     errorText,
     label,
-    placeHolder,
+    placeholderName,
     emptyMessage = "No data found",
     isOptionsLoading = false,
     options = [],
@@ -30,6 +31,8 @@ const SelectWithLabel = <T,>(
     getOptionLabel = getOptionValue,
     ...rest
   } = props;
+
+  const ariaName = label ?? placeholderName;
 
   return (
     <label
@@ -41,19 +44,33 @@ const SelectWithLabel = <T,>(
         </div>
       )}
       <select
+        aria-label={"Select " + ariaName}
+        aria-invalid={!!errorText}
+        aria-errormessage={id + "-error"}
         ref={ref}
+        id={id + "-input"}
         defaultValue={""}
         className="select select-primary select-sm select-bordered min-w-full"
         {...rest}
       >
-        {placeHolder && <option value={""}>{placeHolder}</option>}
+        {placeholderName && (
+          <option value={""}>{"Select" + placeholderName}</option>
+        )}
         {isOptionsLoading && (
-          <option disabled value={"loading-info"}>
+          <option
+            aria-label={"Loading " + ariaName + " data"}
+            disabled
+            value={"loading-info"}
+          >
             Loading...
           </option>
         )}
         {options.length === 0 && !isOptionsLoading && (
-          <option disabled value={"no-option-found"}>
+          <option
+            aria-label={"No " + ariaName + " data found"}
+            disabled
+            value={"no-option-found"}
+          >
             {emptyMessage}
           </option>
         )}
@@ -68,6 +85,7 @@ const SelectWithLabel = <T,>(
           className={clsx("label-text-alt text-error opacity-0 h-4", {
             ["opacity-100"]: !!errorText,
           })}
+          id={id + "-error"}
         >
           {errorText}
         </span>
