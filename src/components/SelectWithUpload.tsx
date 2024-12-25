@@ -32,7 +32,7 @@ const SelectWithUpload = <T,>(
     <div className={clsx("flex items-end w-60 sm:w-80", className)}>
       <SelectWithLabel
         ref={ref}
-        placeHolder="No file selected"
+        placeholderName="file"
         className={clsx("form-control", className)}
         {...rest}
       />
@@ -43,6 +43,7 @@ const SelectWithUpload = <T,>(
         onChange={handleFileChange}
       />
       <button
+        aria-label="Add new file"
         type="button"
         className="btn btn-primary btn-sm mx-2 mb-9"
         onClick={handleButtonClick}
@@ -51,7 +52,10 @@ const SelectWithUpload = <T,>(
           <span className="hidden sm:visible">Add File</span>
           <Plus className="size-4" strokeWidth={3} />
           {isUploading && (
-            <span className="loading loading-spinner loading-sm" />
+            <span
+              aria-label="Uploading file, please wait"
+              className="loading loading-spinner loading-sm"
+            />
           )}
         </span>
       </button>

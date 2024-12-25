@@ -16,5 +16,13 @@ export default {
     logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
     themeRoot: ":root", // The element that receives theme color CSS variables
   },
-  safelist: ["alert-success", "alert-info", "alert-error"],
+  safelist: [
+    "alert-success",
+    "alert-info",
+    "alert-error",
+    "input-sm",
+    "input-md",
+    "file-input-sm",
+    "file-input-md",
+  ],
 };
