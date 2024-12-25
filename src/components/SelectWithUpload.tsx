@@ -3,14 +3,16 @@ import SelectWithLabel, { SelectWithLabelProps } from "./SelectWithLabel";
 import { clsx } from "clsx";
 import { Plus } from "lucide-react";
 
-interface SelectWithUploadProps<T> extends SelectWithLabelProps<T> {
+interface SelectWithUploadProps<TOption> extends SelectWithLabelProps<TOption> {
   className?: string;
   onUpload?: (file: File) => Promise<void>; //TODO: make async
   isUploading?: boolean;
 }
 
-const SelectWithUpload = <T,>(
-  props: SelectWithUploadProps<T> & { ref?: React.Ref<HTMLSelectElement> },
+const SelectWithUpload = <TOption,>(
+  props: SelectWithUploadProps<TOption> & {
+    ref?: React.Ref<HTMLSelectElement>;
+  },
   ref: React.Ref<HTMLSelectElement>
 ) => {
   const { className, onUpload, isUploading = false, ...rest } = props;
@@ -49,7 +51,7 @@ const SelectWithUpload = <T,>(
         onClick={handleButtonClick}
       >
         <span className="flex gap-1 items-center">
-          <span className="hidden sm:visible">Add File</span>
+          <span className="hidden sm:flex">Add File</span>
           <Plus className="size-4" strokeWidth={3} />
           {isUploading && (
             <span
@@ -63,6 +65,6 @@ const SelectWithUpload = <T,>(
   );
 };
 
-export default React.forwardRef(SelectWithUpload) as <T>(
-  props: SelectWithUploadProps<T> & { ref?: React.Ref<HTMLSelectElement> }
+export default React.forwardRef(SelectWithUpload) as <TOption>(
+  props: SelectWithUploadProps<TOption> & { ref?: React.Ref<HTMLSelectElement> }
 ) => React.ReactElement;

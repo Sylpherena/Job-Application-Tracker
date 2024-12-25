@@ -11,6 +11,7 @@ export default function Pagination(props: PaginationProps) {
   return (
     <div className="join w-full flex justify-center p-2">
       <button
+        aria-label="Go to previous page"
         disabled={page === 1 || disabled}
         className="join-item btn bg-base-100"
         onClick={onPrev}
@@ -21,6 +22,7 @@ export default function Pagination(props: PaginationProps) {
         {"Page " + page}
       </button>
       <button
+        aria-label="Go to next page"
         className="join-item btn bg-base-100"
         disabled={totalPages === page || disabled}
         onClick={onNext}

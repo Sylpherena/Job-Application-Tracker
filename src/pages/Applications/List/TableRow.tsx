@@ -1,13 +1,16 @@
+import clsx from "clsx";
 import { Application } from "../../../localDB/types";
 import FileButton from "./FileButton";
 
 type Props = {
   data: Application;
   onModalOpen: (id: string, type: "cl" | "cv") => void;
+  isSelected: boolean;
+  onSelect: () => void;
 };
 
 export default function TableRow(props: Props) {
-  const { data, onModalOpen } = props;
+  const { data, onModalOpen, isSelected = false, onSelect } = props;
 
   const onCVFileClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -25,14 +28,18 @@ export default function TableRow(props: Props) {
 
   return (
     <tr
-      className="h-20 hover:bg-primary hover:bg-opacity-10"
-      onClick={() => {
-        console.log("clicked");
-      }}
+      className={clsx("h-20 hover:bg-primary/10", [
+        { "bg-primary/5": isSelected },
+      ])}
     >
       <td>
         <label>
-          <input type="checkbox" className="checkbox" />
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={isSelected}
+            onChange={onSelect}
+          />
         </label>
       </td>
       <td>{new Date(data.applicationDate).toLocaleDateString()}</td>

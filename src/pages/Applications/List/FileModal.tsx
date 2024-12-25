@@ -30,7 +30,7 @@ export default function FileModal(props: FileModalProps) {
           <span className="flex items-start w-52">
             <p
               className={clsx(
-                "label-text font-semibold text-lg text-primary-content break-all",
+                "label-text font-semibold text-lg text-base-content break-all",
                 [{ "skeleton h-5 w-full": isLoading }]
               )}
             >
@@ -39,7 +39,7 @@ export default function FileModal(props: FileModalProps) {
           </span>
           <span className="flex flex-col gap-2">
             <p
-              className={clsx("label-text text-primary-content", [
+              className={clsx("label-text text-base-content", [
                 { "skeleton h-5": isLoading },
               ])}
             >
@@ -47,7 +47,7 @@ export default function FileModal(props: FileModalProps) {
                 new Date(fileData?.lastModified).toLocaleString()}
             </p>
             <p
-              className={clsx("label-text text-primary-content", [
+              className={clsx("label-text text-base-content", [
                 { "skeleton h-5": isLoading },
               ])}
             >
@@ -56,6 +56,7 @@ export default function FileModal(props: FileModalProps) {
           </span>
         </div>
         <a
+          aria-label="Download File"
           className={clsx("btn btn-primary rounded-full h-14 w-14", [
             { "btn-disabled": isLoading || !fileData?.link },
           ])}
