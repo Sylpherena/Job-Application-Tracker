@@ -4,7 +4,7 @@ export default function LoginThirdParty() {
       <button className="btn btn-ghost border-1 border-base-content flex gap-1">
         <img
           className="h-8"
-          src="/src/assets/google-icon.svg"
+          src="/src/presentation/assets/google-icon.svg"
           alt="Google-Icon"
         />
         Login with Google
@@ -12,7 +12,7 @@ export default function LoginThirdParty() {
       <button className="btn btn-ghost border-1 border-base-content flex gap-1">
         <img
           className="h-8"
-          src="/src/assets/facebook-icon.svg"
+          src="/src/presentation/assets/facebook-icon.svg"
           alt="Facebook-Icon"
         />
         Login with Facebook

@@ -1,5 +1,5 @@
 import { DBSchema, openDB } from "idb";
-import { Application, FileRecord } from "../../localDB/types";
+import { Application, FileRecord } from "../../domain/models";
 
 // Define the database schema
 interface ApplicationTrackerDB extends DBSchema {
