@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-export interface SelectWithLabelProps<T>
+export interface SelectWithLabelProps<TOption>
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
   label?: string;
@@ -9,13 +9,13 @@ export interface SelectWithLabelProps<T>
   isOptionsLoading?: boolean;
   emptyMessage?: string;
   placeholderName?: string;
-  options?: T[]; // Options as a generic array
-  getOptionLabel?: (option: T) => string | undefined; // Function to get label from option
-  getOptionValue?: (option: T) => number | string | undefined; // Function to get value from option
+  options?: TOption[]; // Options as a generic array
+  getOptionLabel?: (option: TOption) => string | undefined; // Function to get label from option
+  getOptionValue?: (option: TOption) => number | string | undefined; // Function to get value from option
 }
 
-const SelectWithLabel = <T,>(
-  props: SelectWithLabelProps<T> & { ref?: React.Ref<HTMLSelectElement> },
+const SelectWithLabel = <TOption,>(
+  props: SelectWithLabelProps<TOption> & { ref?: React.Ref<HTMLSelectElement> },
   ref: React.Ref<HTMLSelectElement>
 ) => {
   const {
@@ -54,7 +54,7 @@ const SelectWithLabel = <T,>(
         {...rest}
       >
         {placeholderName && (
-          <option value={""}>{"Select" + placeholderName}</option>
+          <option value={""}>{"No " + placeholderName + " selected"}</option>
         )}
         {isOptionsLoading && (
           <option
@@ -94,6 +94,6 @@ const SelectWithLabel = <T,>(
   );
 };
 
-export default React.forwardRef(SelectWithLabel) as <T>(
-  props: SelectWithLabelProps<T> & { ref?: React.Ref<HTMLSelectElement> }
+export default React.forwardRef(SelectWithLabel) as <TOption>(
+  props: SelectWithLabelProps<TOption> & { ref?: React.Ref<HTMLSelectElement> }
 ) => React.ReactElement;

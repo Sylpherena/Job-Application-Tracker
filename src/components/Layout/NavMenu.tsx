@@ -8,7 +8,7 @@ export default function NavMenu() {
           <a href="/">Home</a>
         </li>
         <li>
-          <div className="dropdown dropdown-hover dropdown-bottom ">
+          <div className="dropdown dropdown-hover dropdown-bottom z-10">
             {
               //submenu parent and submenu list
             }

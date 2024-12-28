@@ -7,6 +7,8 @@ import ToastProvider from "./providers/Toast/ToastProvider";
 import QueryProvider from "./providers/QueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Authentication from "./pages/Authentication";
+import Account from "./pages/Account";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
                   element={<Authentication pageParam="forgot-password" />}
                 />
               </Route>
+              <Route path="account" element={<Account />} />
+              <Route path="settings" element={<Settings />} />
             </Routes>
           </Router>
         </QueryProvider>
