@@ -12,8 +12,12 @@ export default function ModalButton() {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setModalState(true)}>
-        Add Application
+      <button
+        aria-label="Add Application"
+        className="btn btn-primary"
+        onClick={() => setModalState(true)}
+      >
+        <span className="hidden sm:flex">Add Application</span>
         <CirclePlus />
       </button>
       <Modal
