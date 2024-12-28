@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
-import { DaisyUITheme, daisyUIThemes } from "../../providers/theme/themes";
 import { ChangeEvent } from "react";
-import { useTheme } from "../../providers/theme/ThemeContext";
+import { useTheme } from "../../../providers/theme/ThemeContext";
+import { DaisyUITheme, daisyUIThemes } from "../../../providers/theme/themes";
 
 export default function ThemeSelector() {
   const { theme, setTheme } = useTheme();

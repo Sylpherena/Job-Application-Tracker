@@ -2,7 +2,7 @@ import { ArrowDownToLine, File } from "lucide-react";
 import Modal from "../../../components/Modal";
 import { useFileData } from "./queries";
 import clsx from "clsx";
-import { formatFileName, formatFileSize } from "../../../utils/utils";
+import { formatFileName, formatFileSize } from "../../../../utils/utils";
 
 export type FileType = "cl" | "cv";
 
