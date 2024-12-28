@@ -72,7 +72,6 @@ export default function Form(props: { onSubmit: () => void }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-control p-1 sm:p-2">
-        {/*TODO show today as default*/}
         <Input
           id="add-form-application-date"
           className="max-w-xs"

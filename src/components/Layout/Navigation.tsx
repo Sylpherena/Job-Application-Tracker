@@ -1,13 +1,14 @@
 import { AlignLeft } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import NavMenu from "./NavMenu";
+import UserSettingsMenu from "./UserSettingsMenu";
 
 const Navigation = () => {
   return (
     <div className="drawer h-16">
       <input id="navigation-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
-        <div className="navbar p-0 z-50">
+        <div className="navbar p-0 z-50 shadow">
           <div className="navbar-start">
             <div tabIndex={0} className="lg:hidden">
               <label
@@ -26,7 +27,7 @@ const Navigation = () => {
             </a>
           </div>
           <NavMenu />
-          <div className="navbar-end mx-4">
+          <div className="navbar-end mx-4 gap-2">
             <ThemeSelector />
             <a
               className="btn btn-secondary btn-sm underline"
@@ -34,9 +35,9 @@ const Navigation = () => {
             >
               Sign in
             </a>
+            <UserSettingsMenu />
           </div>
         </div>
-        <div className="bg-primary bg-opacity-30 h-0.5 brightness-90"></div>
       </div>
       <div className="drawer-side z-[9999]">
         <label
