@@ -33,12 +33,9 @@ export interface ApplicationCreate {
   } | null;
 }
 
-export interface FileRecord {
-  id?: string; // Unique string ID
-  name: string;
-  size: number;
-  type: string;
-  data: string; // Base64 or binary
-  lastModified: number;
-  link?: string;
+export interface PaginatedApplication {
+  applications: Application[];
+  currentPage: number;
+  totalPages: number;
+  totalApplications: number;
 }

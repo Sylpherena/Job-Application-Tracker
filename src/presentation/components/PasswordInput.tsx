@@ -1,7 +1,7 @@
 import { Eye, EyeClosed, KeyRound, LucideIcon } from "lucide-react";
 import React, { useState } from "react";
-import Input, { InputProps } from "./Input";
 import clsx from "clsx";
+import Input, { InputProps } from "./Input";
 
 export interface PasswordInputProps extends InputProps {
   className?: string;
