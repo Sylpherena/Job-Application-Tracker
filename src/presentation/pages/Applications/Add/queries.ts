@@ -1,15 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ApplicationCreate, FileRecord } from "../../../localDB/types";
-import {
-  addApplication,
-  addCoverLetterFile,
-  addCVFile,
-  getCoverLetterFiles,
-  getCVFiles,
-} from "../../../localDB/dbConfig";
+import { useDataProvider } from "../../../../providers/data/DataContext";
+import { ApplicationCreate, FileRecord } from "../../../../domain/models";
 
 export const useAddApplicationMutation = (onSuccess: () => void) => {
   const queryClient = useQueryClient();
+  const { addApplication } = useDataProvider();
 
   return useMutation({
     mutationFn: (data: ApplicationCreate) => addApplication(data),
@@ -22,24 +17,29 @@ export const useAddApplicationMutation = (onSuccess: () => void) => {
 };
 
 export const useCVs = () => {
+  const { getFiles } = useDataProvider();
+
   return useQuery({
     queryKey: ["cvs"],
-    queryFn: () => getCVFiles(),
+    queryFn: () => getFiles("cvFiles"),
   });
 };
 
 export const useCLs = () => {
+  const { getFiles } = useDataProvider();
+
   return useQuery({
     queryKey: ["coverLetters"],
-    queryFn: () => getCoverLetterFiles(),
+    queryFn: () => getFiles("coverLetterFiles"),
   });
 };
 
 export const useAddCVMutation = (onSuccess: (id: string) => void) => {
   const queryClient = useQueryClient();
+  const { addFile } = useDataProvider();
 
   return useMutation({
-    mutationFn: (file: FileRecord) => addCVFile(file),
+    mutationFn: (file: FileRecord) => addFile(file, "cvFiles"),
     onSuccess: (data: string) => {
       queryClient.invalidateQueries({ queryKey: ["cvs"] });
 
@@ -50,9 +50,10 @@ export const useAddCVMutation = (onSuccess: (id: string) => void) => {
 
 export const useAddCLMutation = (onSuccess: (id: string) => void) => {
   const queryClient = useQueryClient();
+  const { addFile } = useDataProvider();
 
   return useMutation({
-    mutationFn: (file: FileRecord) => addCoverLetterFile(file),
+    mutationFn: (file: FileRecord) => addFile(file, "coverLetterFiles"),
     onSuccess: (data: string) => {
       queryClient.invalidateQueries({ queryKey: ["coverLetters"] });
 

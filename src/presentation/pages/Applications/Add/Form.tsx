@@ -7,8 +7,7 @@ import {
   ApplicationFormType,
 } from "./formSchema";
 import SelectWithUpload from "../../../components/SelectWithUpload";
-import { fileToFileRecord, formatFileName } from "../../../utils/utils";
-import { ApplicationCreate } from "../../../localDB/types";
+import { fileToFileRecord, formatFileName } from "../../../../utils/utils";
 import {
   useAddApplicationMutation,
   useAddCLMutation,
@@ -16,7 +15,8 @@ import {
   useCLs,
   useCVs,
 } from "./queries";
-import useToast from "../../../providers/Toast/ToastContext";
+import useToast from "../../../../providers/Toast/ToastContext";
+import { ApplicationCreate } from "../../../../domain/models";
 
 export default function Form(props: { onSubmit: () => void }) {
   const {

@@ -1,7 +1,5 @@
 import { Mail, UserRound } from "lucide-react";
 import LoginThirdParty from "./LoginThirdParty";
-import PasswordInput from "../../../components/PasswordInput";
-import Input from "../../../components/Input";
 import { useForm } from "react-hook-form";
 import {
   defaultSignUpFormValues,
@@ -9,6 +7,8 @@ import {
   signUpSchema,
 } from "./authenticationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Input from "../../../components/Input";
+import PasswordInput from "../../../components/PasswordInput";
 
 export default function Signup() {
   const {

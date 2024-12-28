@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { formatFileName } from "../../../utils/utils";
+import { formatFileName } from "../../../../utils/utils";
 
 interface FileButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
