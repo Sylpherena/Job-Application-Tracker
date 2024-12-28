@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { Application } from "../../../localDB/types";
 import FileButton from "./FileButton";
+import { Application } from "../../../../domain/models";
 
 type Props = {
   data: Application;
