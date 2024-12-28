@@ -1,7 +1,7 @@
 import React from "react";
 import { DataContext } from "./DataContext";
-import { indexedDBApplicationRepo } from "../../data/indexedDB/applicationRepository";
 import { indexedDBFileRepo } from "../../data/indexedDB/fileRepository";
+import { firebaseApplicationRepo } from "../../data/firebase/applicationRepository";
 
 export default function DataProvider(props: React.PropsWithChildren) {
   const { children } = props;
@@ -9,7 +9,7 @@ export default function DataProvider(props: React.PropsWithChildren) {
   return (
     <DataContext.Provider
       value={{
-        ...indexedDBApplicationRepo,
+        ...firebaseApplicationRepo,
         ...indexedDBFileRepo,
       }}
     >
