@@ -1,20 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  getApplicationsPaginated,
-  getCoverLetterById,
-  getCVById,
-} from "../../../localDB/dbConfig";
-import { FileRecord } from "../../../localDB/types";
 import { FileModalState } from "./FileModal";
+import { useDataProvider } from "../../../../providers/data/DataContext";
+import { FileRecord } from "../../../../domain/models";
 
 export const usePaginatedApplications = (page: number, limit: number) => {
+  const { getPaginatedApplications } = useDataProvider();
+
   return useQuery({
     queryKey: ["applications", page, limit],
-    queryFn: () => getApplicationsPaginated(page, limit),
+    queryFn: () => getPaginatedApplications(page, limit),
   });
 };
 
 export const useFileData = (fileData: FileModalState | null) => {
+  const { getFileById } = useDataProvider();
   const { id, link, type } = fileData ?? {};
   return useQuery({
     queryKey: ["fileInfo", id, type, link],
@@ -22,9 +21,9 @@ export const useFileData = (fileData: FileModalState | null) => {
       let file: FileRecord;
 
       if (type === "cv") {
-        file = await getCVById(id!);
+        file = await getFileById(id!, "cvFiles");
       } else {
-        file = await getCoverLetterById(id!);
+        file = await getFileById(id!, "coverLetterFiles");
       }
 
       let createdLink: string | undefined;

@@ -1,4 +1,4 @@
-import { FileRecord } from "../localDB/types";
+import { FileRecord } from "../domain/models";
 
 //TODO Delete
 export function delay(ms: number) {
