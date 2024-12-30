@@ -1,15 +1,47 @@
+import { useNavigate } from "react-router-dom";
+import useToast from "../../../../providers/Toast/ToastContext";
+import { useGoogleSignInMutation } from "./queries";
+
 export default function LoginThirdParty() {
+  const showToast = useToast();
+  const navigate = useNavigate();
+
+  const handleGoogleSignInSuccess = (name: string) => {
+    navigate("/");
+    showToast("Welcome " + name, "success");
+  };
+
+  const { mutate: mutateGoogleSignIn, isPending: isGoogleSignInPending } =
+    useGoogleSignInMutation(handleGoogleSignInSuccess);
+
+  const onGoogleSignInClick = async () => {
+    mutateGoogleSignIn();
+  };
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      <button className="btn btn-ghost border-1 border-base-content flex gap-1">
+      <button
+        disabled={isGoogleSignInPending}
+        onClick={onGoogleSignInClick}
+        className="btn btn-ghost border-1 border-base-content flex gap-1"
+      >
         <img
           className="h-8"
           src="/src/presentation/assets/google-icon.svg"
           alt="Google-Icon"
         />
+        {isGoogleSignInPending && (
+          <span
+            aria-label="Signing in with google, please wait"
+            className="loading loading-spinner loading-sm"
+          />
+        )}
         Login with Google
       </button>
-      <button className="btn btn-ghost border-1 border-base-content flex gap-1">
+      <button
+        disabled={isGoogleSignInPending}
+        className="btn btn-ghost border-1 border-base-content flex gap-1"
+      >
         <img
           className="h-8"
           src="/src/presentation/assets/facebook-icon.svg"

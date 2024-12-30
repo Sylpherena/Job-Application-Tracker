@@ -1,8 +1,12 @@
 import { createContext, useContext } from "react";
-import { ApplicationRepository, FileRepository } from "../../domain/repository";
+import {
+  ApplicationRepository,
+  FileRepository,
+  UserRepository,
+} from "../../domain/repository";
 
 export const DataContext = createContext<
-  ApplicationRepository & FileRepository
->({} as ApplicationRepository & FileRepository);
+  ApplicationRepository & FileRepository & UserRepository
+>({} as ApplicationRepository & FileRepository & UserRepository);
 
 export const useDataProvider = () => useContext(DataContext);
