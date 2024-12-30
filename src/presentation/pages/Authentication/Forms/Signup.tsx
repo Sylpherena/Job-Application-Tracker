@@ -1,6 +1,6 @@
 import { Mail, UserRound } from "lucide-react";
 import LoginThirdParty from "./LoginThirdParty";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   defaultSignUpFormValues,
   SignUpFormType,
@@ -9,6 +9,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../../../components/Input";
 import PasswordInput from "../../../components/PasswordInput";
+import useToast from "../../../../providers/Toast/ToastContext";
+import { useSignUpMutation } from "./queries";
+import { UserCreate } from "../../../../domain/models";
+import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const {
@@ -21,9 +26,20 @@ export default function Signup() {
     defaultValues: defaultSignUpFormValues,
   });
 
-  const onSubmit = async () => {
+  const showToast = useToast();
+  const navigate = useNavigate();
+
+  const handleSignUpSuccess = (email: string) => {
+    navigate("/authentication/sign-in");
     reset();
-    console.log("submit");
+    showToast("Verification email sent to: " + email, "success");
+  };
+
+  const { mutate: mutateSignUp, isPending: isSignUpPending } =
+    useSignUpMutation(handleSignUpSuccess);
+
+  const onSubmit = async (data: FieldValues) => {
+    mutateSignUp(data as UserCreate);
   };
 
   return (
@@ -56,8 +72,18 @@ export default function Signup() {
           {...register("password")}
         />
         <a
-          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min"
-          href="/authentication/forgot-password"
+          className={clsx(
+            "underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min",
+            [
+              {
+                "cursor-not-allowed text-base-content hover:text-base-content":
+                  isSignUpPending,
+              },
+            ]
+          )}
+          href={
+            !isSignUpPending ? "/authentication/forgot-password" : undefined
+          }
         >
           Forgot Password?
         </a>
@@ -68,6 +94,12 @@ export default function Signup() {
             onClick={handleSubmit(onSubmit)}
           >
             Sign up
+            {isSignUpPending && (
+              <span
+                aria-label="Sign up pending, please wait"
+                className="loading loading-spinner loading-sm"
+              />
+            )}
           </button>
         </div>
       </div>

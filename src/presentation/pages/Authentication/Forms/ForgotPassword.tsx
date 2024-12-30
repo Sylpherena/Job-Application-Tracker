@@ -1,13 +1,16 @@
 import { ChevronLeft, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/Input";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   defaultForgotEmailFormValues,
   ForgotEmailFormType,
   forgotPasswordSchema,
 } from "./authenticationSchemas";
+import useToast from "../../../../providers/Toast/ToastContext";
+import { usePasswordResetMutation } from "./queries";
+import { UserForgotPassword } from "../../../../domain/models";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -21,10 +24,19 @@ export default function ForgotPassword() {
     defaultValues: defaultForgotEmailFormValues,
   });
 
-  const onSubmit = async () => {
-    reset();
-    console.log("submit");
+  const showToast = useToast();
+
+  const handlePasswordResetSuccess = () => {
     navigate("/authentication/sign-in");
+    reset();
+    showToast("Password reset email sent. Please check your inbox.", "success");
+  };
+
+  const { mutate: mutatePasswordReset, isPending: isPasswordResetPending } =
+    usePasswordResetMutation(handlePasswordResetSuccess);
+
+  const onSubmit = async (data: FieldValues) => {
+    mutatePasswordReset(data as UserForgotPassword);
   };
 
   return (
@@ -62,6 +74,12 @@ export default function ForgotPassword() {
               onClick={handleSubmit(onSubmit)}
             >
               Reset Password
+              {isPasswordResetPending && (
+                <span
+                  aria-label="Creating request for reset password link, please wait"
+                  className="loading loading-spinner loading-sm"
+                />
+              )}
             </button>
           </div>
         </div>

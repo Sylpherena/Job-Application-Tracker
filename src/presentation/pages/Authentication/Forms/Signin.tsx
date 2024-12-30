@@ -2,26 +2,44 @@ import { Mail } from "lucide-react";
 import LoginThirdParty from "./LoginThirdParty";
 import PasswordInput from "../../../components/PasswordInput";
 import Input from "../../../components/Input";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   defaultSignInFormValues,
   SignInFormType,
   signInSchema,
 } from "./authenticationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useToast from "../../../../providers/Toast/ToastContext";
+import { useSignInMutation } from "./queries";
+import { UserSignIn } from "../../../../domain/models";
+import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Signin() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignInFormType>({
     resolver: zodResolver(signInSchema),
     defaultValues: defaultSignInFormValues,
   });
 
-  const onSubmit = async () => {
-    console.log("submit");
+  const showToast = useToast();
+  const navigate = useNavigate();
+
+  const handleSignInSuccess = (name: string) => {
+    navigate("/");
+    reset();
+    showToast("Welcome " + name, "success");
+  };
+
+  const { mutate: mutateSignIn, isPending: isSignInPending } =
+    useSignInMutation(handleSignInSuccess);
+
+  const onSubmit = async (data: FieldValues) => {
+    mutateSignIn(data as UserSignIn);
   };
 
   return (
@@ -46,8 +64,18 @@ export default function Signin() {
           {...register("password")}
         />
         <a
-          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min"
-          href="/authentication/forgot-password"
+          className={clsx(
+            "underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min",
+            [
+              {
+                "cursor-not-allowed text-base-content hover:text-base-content":
+                  isSignInPending,
+              },
+            ]
+          )}
+          href={
+            !isSignInPending ? "/authentication/forgot-password" : undefined
+          }
         >
           Forgot Password?
         </a>
@@ -58,6 +86,12 @@ export default function Signin() {
             onClick={handleSubmit(onSubmit)}
           >
             Sign in
+            {isSignInPending && (
+              <span
+                aria-label="Signing in, please wait"
+                className="loading loading-spinner loading-sm"
+              />
+            )}
           </button>
         </div>
       </div>
