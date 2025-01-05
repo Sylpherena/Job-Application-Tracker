@@ -9,7 +9,6 @@ import {
   signInSchema,
 } from "./authenticationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useToast from "../../../../providers/Toast/ToastContext";
 import { useSignInMutation } from "./queries";
 import { UserSignIn } from "../../../../domain/models";
 import clsx from "clsx";
@@ -26,13 +25,11 @@ export default function Signin() {
     defaultValues: defaultSignInFormValues,
   });
 
-  const showToast = useToast();
   const navigate = useNavigate();
 
-  const handleSignInSuccess = (name: string) => {
+  const handleSignInSuccess = () => {
     navigate("/");
     reset();
-    showToast("Welcome " + name, "success");
   };
 
   const { mutate: mutateSignIn, isPending: isSignInPending } =
@@ -49,7 +46,7 @@ export default function Signin() {
       role="tabpanel"
       className="tab-content bg-base-100 rounded-box p-6"
     >
-      <div className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           id="sign-in-email"
           Icon={Mail}
@@ -80,11 +77,7 @@ export default function Signin() {
           Forgot Password?
         </a>
         <div className="flex w-full justify-center">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
+          <button className="btn btn-primary" type="submit">
             Sign in
             {isSignInPending && (
               <span
@@ -94,7 +87,7 @@ export default function Signin() {
             )}
           </button>
         </div>
-      </div>
+      </form>
       <div className="divider font-semibold">OR</div>
       <LoginThirdParty />
     </div>

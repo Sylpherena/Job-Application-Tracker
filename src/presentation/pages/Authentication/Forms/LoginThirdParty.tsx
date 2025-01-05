@@ -1,14 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import useToast from "../../../../providers/Toast/ToastContext";
 import { useGoogleSignInMutation } from "./queries";
 
 export default function LoginThirdParty() {
-  const showToast = useToast();
   const navigate = useNavigate();
 
-  const handleGoogleSignInSuccess = (name: string) => {
+  const handleGoogleSignInSuccess = () => {
     navigate("/");
-    showToast("Welcome " + name, "success");
   };
 
   const { mutate: mutateGoogleSignIn, isPending: isGoogleSignInPending } =

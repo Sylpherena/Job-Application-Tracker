@@ -51,7 +51,7 @@ export default function ForgotPassword() {
         >
           <ChevronLeft />
         </button>
-        <div className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <h3 className="text-center text-3xl font-bold text-base-content">
             Forgot Password?
           </h3>
@@ -68,11 +68,7 @@ export default function ForgotPassword() {
             {...register("email")}
           />
           <div className="flex w-full justify-center">
-            <button
-              className="btn btn-primary"
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-            >
+            <button className="btn btn-primary" type="submit">
               Reset Password
               {isPasswordResetPending && (
                 <span
@@ -82,7 +78,7 @@ export default function ForgotPassword() {
               )}
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

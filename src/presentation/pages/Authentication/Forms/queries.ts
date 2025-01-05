@@ -5,7 +5,6 @@ import {
   SignInFormType,
   SignUpFormType,
 } from "./authenticationSchemas";
-import { User } from "../../../../domain/models";
 
 export const useSignUpMutation = (onSuccess: (email: string) => void) => {
   const queryClient = useQueryClient();
@@ -13,36 +12,36 @@ export const useSignUpMutation = (onSuccess: (email: string) => void) => {
 
   return useMutation({
     mutationFn: (userData: SignUpFormType) => signUp(userData),
-    onSuccess: (data: User) => {
+    onSuccess: (data: string) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
 
-      onSuccess(data.email);
+      onSuccess(data);
     },
   });
 };
 
-export const useSignInMutation = (onSuccess: (name: string) => void) => {
+export const useSignInMutation = (onSuccess: () => void) => {
   const queryClient = useQueryClient();
   const { signIn } = useDataProvider();
 
   return useMutation({
     mutationFn: (userData: SignInFormType) => signIn(userData),
-    onSuccess: (data: User) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      onSuccess(data.name);
+      onSuccess();
     },
   });
 };
 
-export const useGoogleSignInMutation = (onSuccess: (name: string) => void) => {
+export const useGoogleSignInMutation = (onSuccess: () => void) => {
   const queryClient = useQueryClient();
   const { googleSignIn } = useDataProvider();
 
   return useMutation({
     mutationFn: () => googleSignIn(),
-    onSuccess: (data: User) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      onSuccess(data.name);
+      onSuccess();
     },
   });
 };

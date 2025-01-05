@@ -2,8 +2,11 @@ import { AlignLeft } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import NavMenu from "./NavMenu";
 import UserSettingsMenu from "./UserSettingsMenu";
+import { useAuth } from "../../../providers/auth/AuthContext";
 
 const Navigation = () => {
+  const { user } = useAuth();
+
   return (
     <div className="drawer h-16">
       <input id="navigation-drawer" type="checkbox" className="drawer-toggle" />
@@ -29,13 +32,16 @@ const Navigation = () => {
           <NavMenu />
           <div className="navbar-end mx-4 gap-2">
             <ThemeSelector />
-            <a
-              className="btn btn-secondary btn-sm underline"
-              href="/authentication/sign-in"
-            >
-              Sign in
-            </a>
-            <UserSettingsMenu />
+            {!user ? (
+              <a
+                className="btn btn-secondary btn-sm underline"
+                href="/authentication/sign-in"
+              >
+                Sign in
+              </a>
+            ) : (
+              <UserSettingsMenu />
+            )}
           </div>
         </div>
       </div>

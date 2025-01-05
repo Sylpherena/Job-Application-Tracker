@@ -49,7 +49,7 @@ export default function Signup() {
       role="tabpanel"
       className="tab-content bg-base-100 rounded-box p-6"
     >
-      <div className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           id="sign-up-name"
           Icon={UserRound}
@@ -88,11 +88,7 @@ export default function Signup() {
           Forgot Password?
         </a>
         <div className="flex w-full justify-center">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
+          <button className="btn btn-primary" type="submit">
             Sign up
             {isSignUpPending && (
               <span
@@ -102,7 +98,7 @@ export default function Signup() {
             )}
           </button>
         </div>
-      </div>
+      </form>
       <div className="divider font-semibold">OR</div>
       <LoginThirdParty />
     </div>

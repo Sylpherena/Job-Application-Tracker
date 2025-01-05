@@ -4,7 +4,9 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
   updateProfile,
+  User as FirebaseUser,
 } from "firebase/auth";
 import {
   User,
@@ -17,7 +19,7 @@ import { auth, db, googleProvider } from "./firebaseConnection";
 import { doc, getDoc } from "firebase/firestore";
 
 export const firebaseUserRepo: UserRepository = {
-  signUp: async function (userData: UserCreate): Promise<User> {
+  signUp: async function (userData: UserCreate): Promise<string> {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -25,22 +27,15 @@ export const firebaseUserRepo: UserRepository = {
         userData.password
       );
 
-      // Signed in
       const user = userCredential.user;
 
       await updateProfile(user, {
         displayName: userData.name,
       });
 
-      const userDataReturn: User = {
-        email: userData.email,
-        name: userData.name,
-        emailVerified: user.emailVerified,
-      };
-
       await sendEmailVerification(user);
 
-      return userDataReturn;
+      return user.email!;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -49,7 +44,7 @@ export const firebaseUserRepo: UserRepository = {
       }
     }
   },
-  signIn: async function (signInData: UserSignIn): Promise<User> {
+  signIn: async function (signInData: UserSignIn): Promise<FirebaseUser> {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -60,18 +55,7 @@ export const firebaseUserRepo: UserRepository = {
       // Signed in
       const user = userCredential.user;
 
-      // Reference to the user's document in Firestore and fetch the user's additional data
-      const userDocRef = doc(db, "users", user.uid);
-
-      const userDoc = await getDoc(userDocRef);
-      const userPremiumData = userDoc.data()?.isPremium ?? false;
-
-      return {
-        isPremium: userPremiumData,
-        name: user.displayName!,
-        email: user.email!,
-        emailVerified: user.emailVerified,
-      };
+      return user;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -80,25 +64,14 @@ export const firebaseUserRepo: UserRepository = {
       }
     }
   },
-  googleSignIn: async function (): Promise<User> {
+  googleSignIn: async function (): Promise<FirebaseUser> {
     try {
       const result = await signInWithPopup(auth, googleProvider);
 
       // Signed in
       const user = result.user;
-      const userDocRef = doc(db, "users", user.uid);
 
-      const userDoc = await getDoc(userDocRef);
-      const userPremiumData = userDoc.data()?.isPremium ?? false;
-
-      const userData: User = {
-        email: user.email!,
-        name: user.displayName!,
-        isPremium: userPremiumData,
-        emailVerified: user.emailVerified,
-      };
-
-      return userData;
+      return user;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -112,6 +85,43 @@ export const firebaseUserRepo: UserRepository = {
   ): Promise<void> {
     try {
       await sendPasswordResetEmail(auth, userForgotPassword.email);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(error as string);
+      }
+    }
+  },
+  signOut: async function (): Promise<void> {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(error as string);
+      }
+    }
+  },
+  getUserDetails: async function (user: FirebaseUser): Promise<User | null> {
+    try {
+      await user.reload();
+      const updatedUser = auth.currentUser;
+      if (!updatedUser) {
+        throw new Error("User couldn't be found");
+      }
+      const userDocRef = doc(db, "users", user.uid);
+
+      const userDoc = await getDoc(userDocRef);
+      const userPremiumData = userDoc.data()?.isPremium ?? false;
+
+      return {
+        isPremium: userPremiumData,
+        name: updatedUser.displayName!,
+        email: updatedUser.email!,
+        emailVerified: user.emailVerified,
+      };
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
