@@ -1,11 +1,12 @@
 import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function NavMenu() {
   return (
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal p-0">
         <li>
-          <a href="/">Home</a>
+          <Link to="/">Home</Link>
         </li>
         <li>
           <div className="dropdown dropdown-hover dropdown-bottom z-10">
@@ -21,16 +22,16 @@ export default function NavMenu() {
               className="dropdown-content left-1/2 -translate-x-1/2 menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
-                <a href="/applications">Applications</a>
+                <Link to="/applications">Applications</Link>
               </li>
               <li>
-                <a>Add New</a>
+                <Link to={"/"}>Add New</Link>
               </li>
             </ul>
           </div>
         </li>
         <li>
-          <a href="/applications">Applications2</a>
+          <Link to="/applications">Applications2</Link>
         </li>
       </ul>
     </div>

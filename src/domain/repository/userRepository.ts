@@ -8,4 +8,5 @@ export interface UserRepository {
   passwordReset(userForgotPassword: UserForgotPassword): Promise<void>;
   signOut(): Promise<void>;
   getUserDetails(user: FirebaseUser | null): Promise<User | null>;
+  resendVerificationEmail(user: FirebaseUser): Promise<void>;
 }

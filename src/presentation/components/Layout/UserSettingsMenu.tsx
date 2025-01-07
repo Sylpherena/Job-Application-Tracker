@@ -1,28 +1,33 @@
-import { LogOut, Settings, UserRound, UserRoundCog } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import useToast from "../../../providers/Toast/ToastContext";
-import { useNavigate } from "react-router-dom";
 import { useLogOutMutation } from "./queries";
 import { useAuth } from "../../../providers/auth/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function UserSettingsMenu() {
   const showToast = useToast();
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   const handleSignOutSuccess = () => {
-    navigate("/");
     showToast("Logged out.", "success");
   };
 
   const { mutate: mutateLogOut, isPending: isLogOutPending } =
     useLogOutMutation(handleSignOutSuccess);
 
-  const onLogOut = async () => {
+  const onLogOut = async (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     mutateLogOut();
+    onLinkClick(e);
+  };
+
+  const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.currentTarget.blur();
   };
 
   return (
-    <div className="dropdown dropdown-hover dropdown-bottom dropdown-end z-10">
+    <div className="dropdown dropdown-bottom dropdown-end z-10">
       {
         //submenu parent and submenu list
       }
@@ -37,27 +42,32 @@ export default function UserSettingsMenu() {
       </div>
       <ul
         tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 shadow text-bold"
+        className="dropdown-content menu rounded-box z-[1] w-52 shadow text-bold bg-base-100"
       >
-        <li>
-          {/* <a className="px-0 font-semibold" href="/account">
-            <UserRoundCog className="h-3.5" />
-            Account
-          </a> */}
-          <p className="whitespace-pre-line">
-            Hi {user?.name}!
-            <br />
-            {user?.email}
-          </p>
-        </li>
-        <li>
-          <a className="px-0 font-semibold" href="/settings">
+        <div className="flex gap-2 justify-center py-4 font-semibold">
+          <div className="avatar placeholder">
+            <div className="bg-neutral text-neutral-content w-6 rounded-full">
+              <span className="text-xs">{user?.name.charAt(0)}</span>
+            </div>
+          </div>
+          {user?.name}
+        </div>
+        <li className="border-t-2">
+          <Link
+            className="px-0 font-semibold"
+            to={"/settings"}
+            onClick={onLinkClick}
+          >
             <Settings className="h-3.5" />
             Settings
-          </a>
+          </Link>
         </li>
-        <li onClick={onLogOut}>
-          <a className="px-0 text-error font-semibold">
+        <li>
+          <Link
+            className="px-0 text-error font-semibold"
+            to={"/"}
+            onClick={onLogOut}
+          >
             <LogOut className="h-3.5" />
             Log out
             {isLogOutPending && (
@@ -66,7 +76,7 @@ export default function UserSettingsMenu() {
                 className="loading loading-spinner loading-sm"
               />
             )}
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

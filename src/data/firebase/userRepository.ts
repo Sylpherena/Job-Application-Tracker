@@ -130,4 +130,15 @@ export const firebaseUserRepo: UserRepository = {
       }
     }
   },
+  resendVerificationEmail: async function (user: FirebaseUser): Promise<void> {
+    try {
+      await sendEmailVerification(user);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error(error as string);
+      }
+    }
+  },
 };

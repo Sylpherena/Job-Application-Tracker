@@ -14,6 +14,7 @@ import { useSignUpMutation } from "./queries";
 import { UserCreate } from "../../../../domain/models";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const {
@@ -71,7 +72,7 @@ export default function Signup() {
           errorText={errors.password?.message}
           {...register("password")}
         />
-        <a
+        <Link
           className={clsx(
             "underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min",
             [
@@ -81,12 +82,10 @@ export default function Signup() {
               },
             ]
           )}
-          href={
-            !isSignUpPending ? "/authentication/forgot-password" : undefined
-          }
+          to={!isSignUpPending ? "/authentication/forgot-password" : "#"}
         >
           Forgot Password?
-        </a>
+        </Link>
         <div className="flex w-full justify-center">
           <button className="btn btn-primary" type="submit">
             Sign up

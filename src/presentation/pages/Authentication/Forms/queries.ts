@@ -5,16 +5,14 @@ import {
   SignInFormType,
   SignUpFormType,
 } from "./authenticationSchemas";
+import { User as FirebaseUser } from "firebase/auth";
 
 export const useSignUpMutation = (onSuccess: (email: string) => void) => {
-  const queryClient = useQueryClient();
   const { signUp } = useDataProvider();
 
   return useMutation({
     mutationFn: (userData: SignUpFormType) => signUp(userData),
     onSuccess: (data: string) => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-
       onSuccess(data);
     },
   });
@@ -26,9 +24,11 @@ export const useSignInMutation = (onSuccess: () => void) => {
 
   return useMutation({
     mutationFn: (userData: SignInFormType) => signIn(userData),
-    onSuccess: () => {
+    onSuccess: (data: FirebaseUser) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      onSuccess();
+      if (data.emailVerified === true) {
+        onSuccess();
+      }
     },
   });
 };
@@ -47,14 +47,12 @@ export const useGoogleSignInMutation = (onSuccess: () => void) => {
 };
 
 export const usePasswordResetMutation = (onSuccess: () => void) => {
-  const queryClient = useQueryClient();
   const { passwordReset } = useDataProvider();
 
   return useMutation({
     mutationFn: (userForgotPassword: ForgotEmailFormType) =>
       passwordReset(userForgotPassword),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
       onSuccess();
     },
   });

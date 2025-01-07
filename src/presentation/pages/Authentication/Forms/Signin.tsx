@@ -13,6 +13,7 @@ import { useSignInMutation } from "./queries";
 import { UserSignIn } from "../../../../domain/models";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Signin() {
   const {
@@ -60,7 +61,7 @@ export default function Signin() {
           errorText={errors.password?.message}
           {...register("password")}
         />
-        <a
+        <Link
           className={clsx(
             "underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min",
             [
@@ -70,12 +71,10 @@ export default function Signin() {
               },
             ]
           )}
-          href={
-            !isSignInPending ? "/authentication/forgot-password" : undefined
-          }
+          to={!isSignInPending ? "/authentication/forgot-password" : "#"}
         >
           Forgot Password?
-        </a>
+        </Link>
         <div className="flex w-full justify-center">
           <button className="btn btn-primary" type="submit">
             Sign in

@@ -32,7 +32,7 @@ export const defaultSignUpFormValues = {
 
 const emailSchema = z.string().email("Invalid email address");
 
-const passwordSchema = z
+export const passwordSchema = z
   .string()
   .min(6, "Password must be at least 6 characters long")
   .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
@@ -40,7 +40,7 @@ const passwordSchema = z
   .regex(/[0-9]/, "Password must contain at least one number")
   .regex(/[\W_]/, "Password must contain at least one special character");
 
-const nameSchema = z.string().min(1, "Name is required");
+export const nameSchema = z.string().min(1, "Name is required");
 
 export const forgotPasswordSchema = z.object({
   email: emailSchema,

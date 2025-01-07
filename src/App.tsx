@@ -3,7 +3,6 @@ import ThemeProvider from "./providers/theme/ThemeProvider";
 import ToastProvider from "./providers/Toast/ToastProvider";
 import QueryProvider from "./providers/QueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Account from "./presentation/pages/Account";
 import Settings from "./presentation/pages/Settings";
 import DataProvider from "./providers/data/DataProvider";
 import AuthProvider from "./providers/auth/AuthProvider";
@@ -39,7 +38,6 @@ function App() {
                       element={<Authentication pageParam="forgot-password" />}
                     />
                   </Route>
-                  <Route path="account" element={<Account />} />
                   <Route path="settings" element={<Settings />} />
                 </Routes>
               </Router>

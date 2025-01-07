@@ -3,12 +3,18 @@ import { auth } from "../../data/firebase/firebaseConnection";
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { useDetailedUser } from "./queries";
+import Modal from "../../presentation/components/Modal";
+import VerifyEmail from "../../presentation/pages/Authentication/VerifyEmail/VerifyEmail";
 
 export default function AuthProvider(props: React.PropsWithChildren) {
   const { children } = props;
   const [userToGetDetails, setUserToGetDetails] = useState<
     FirebaseUser | null | undefined
   >(undefined);
+
+  const [verifyUser, setVerifyUser] = useState<FirebaseUser | undefined>(
+    undefined
+  );
 
   const { data: userWithDetails, isLoading } =
     useDetailedUser(userToGetDetails);
@@ -17,7 +23,7 @@ export default function AuthProvider(props: React.PropsWithChildren) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user !== null && user.emailVerified === false) {
         auth.signOut();
-        setUserToGetDetails(null);
+        setVerifyUser(user ?? undefined);
       } else {
         setUserToGetDetails(user);
       }
@@ -34,6 +40,12 @@ export default function AuthProvider(props: React.PropsWithChildren) {
   return (
     <AuthContext.Provider value={{ user: userWithDetails ?? null }}>
       {children}
+      <Modal
+        isOpen={!!verifyUser}
+        onModalStateChange={() => setVerifyUser(undefined)}
+      >
+        <VerifyEmail user={verifyUser} />
+      </Modal>
     </AuthContext.Provider>
   );
 }
