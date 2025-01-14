@@ -7,11 +7,12 @@ export interface PasswordInputProps extends InputProps {
   className?: string;
   label?: string;
   Icon?: LucideIcon;
+  hideIcon?: boolean;
 }
 
 const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
   (props: PasswordInputProps, ref) => {
-    const { placeholder = "Password", Icon, ...rest } = props;
+    const { placeholder = "Password", Icon, hideIcon = false, ...rest } = props;
 
     const [isPasswordShown, setPasswordShown] = useState<boolean>(false);
 
@@ -22,9 +23,17 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
       setPasswordShown((prev) => !prev);
     };
 
+    const getIconToRender = () => {
+      if (hideIcon) {
+        return undefined;
+      } else {
+        return Icon ?? KeyRound;
+      }
+    };
+
     return (
       <Input
-        Icon={Icon ?? KeyRound}
+        Icon={getIconToRender()}
         placeholder={placeholder}
         type={isPasswordShown ? "text" : "password"}
         endSlot={

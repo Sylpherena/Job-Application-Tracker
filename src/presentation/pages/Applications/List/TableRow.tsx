@@ -11,7 +11,6 @@ type Props = {
 
 export default function TableRow(props: Props) {
   const { data, onModalOpen, isSelected = false, onSelect } = props;
-
   const onCVFileClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

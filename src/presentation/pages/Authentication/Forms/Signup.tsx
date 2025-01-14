@@ -1,6 +1,6 @@
 import { Mail, UserRound } from "lucide-react";
 import LoginThirdParty from "./LoginThirdParty";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   defaultSignUpFormValues,
   SignUpFormType,
@@ -9,6 +9,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../../../components/Input";
 import PasswordInput from "../../../components/PasswordInput";
+import useToast from "../../../../providers/Toast/ToastContext";
+import { useSignUpMutation } from "./queries";
+import { UserCreate } from "../../../../domain/models";
+import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const {
@@ -21,9 +27,20 @@ export default function Signup() {
     defaultValues: defaultSignUpFormValues,
   });
 
-  const onSubmit = async () => {
+  const showToast = useToast();
+  const navigate = useNavigate();
+
+  const handleSignUpSuccess = (email: string) => {
+    navigate("/authentication/sign-in");
     reset();
-    console.log("submit");
+    showToast("Verification email sent to: " + email, "success");
+  };
+
+  const { mutate: mutateSignUp, isPending: isSignUpPending } =
+    useSignUpMutation(handleSignUpSuccess);
+
+  const onSubmit = async (data: FieldValues) => {
+    mutateSignUp(data as UserCreate);
   };
 
   return (
@@ -33,7 +50,7 @@ export default function Signup() {
       role="tabpanel"
       className="tab-content bg-base-100 rounded-box p-6"
     >
-      <div className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           id="sign-up-name"
           Icon={UserRound}
@@ -55,22 +72,32 @@ export default function Signup() {
           errorText={errors.password?.message}
           {...register("password")}
         />
-        <a
-          className="underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min"
-          href="/authentication/forgot-password"
+        <Link
+          className={clsx(
+            "underline text-primary font-semibold cursor-pointer hover:text-secondary whitespace-nowrap w-min",
+            [
+              {
+                "cursor-not-allowed text-base-content hover:text-base-content":
+                  isSignUpPending,
+              },
+            ]
+          )}
+          to={!isSignUpPending ? "/authentication/forgot-password" : "#"}
         >
           Forgot Password?
-        </a>
+        </Link>
         <div className="flex w-full justify-center">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
+          <button className="btn btn-primary" type="submit">
             Sign up
+            {isSignUpPending && (
+              <span
+                aria-label="Sign up pending, please wait"
+                className="loading loading-spinner loading-sm"
+              />
+            )}
           </button>
         </div>
-      </div>
+      </form>
       <div className="divider font-semibold">OR</div>
       <LoginThirdParty />
     </div>

@@ -107,9 +107,10 @@ export const firebaseApplicationRepo: ApplicationRepository = {
       : q;
 
     const currentPageSnapshot = await getDocs(currentPageQuery);
-    applications = currentPageSnapshot.docs.map((doc) =>
-      doc.data()
-    ) as Application[];
+    applications = currentPageSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as Application[];
 
     return {
       applications,

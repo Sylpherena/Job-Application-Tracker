@@ -2,8 +2,12 @@ import { AlignLeft } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import NavMenu from "./NavMenu";
 import UserSettingsMenu from "./UserSettingsMenu";
+import { useAuth } from "../../../providers/auth/AuthContext";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
+  const { user } = useAuth();
+
   return (
     <div className="drawer h-16">
       <input id="navigation-drawer" type="checkbox" className="drawer-toggle" />
@@ -19,23 +23,26 @@ const Navigation = () => {
                 <AlignLeft />
               </label>
             </div>
-            <a
+            <Link
               className="btn btn-ghost text-lg sm:text-xl leading-6 break-words w-min sm:w-fit p-1 h-fit sm:px-2 mx-2"
-              href="/"
+              to="/"
             >
               Application _Tracker
-            </a>
+            </Link>
           </div>
           <NavMenu />
           <div className="navbar-end mx-4 gap-2">
             <ThemeSelector />
-            <a
-              className="btn btn-secondary btn-sm underline"
-              href="/authentication/sign-in"
-            >
-              Sign in
-            </a>
-            <UserSettingsMenu />
+            {!user ? (
+              <Link
+                className="btn btn-secondary btn-sm underline"
+                to="/authentication/sign-in"
+              >
+                Sign in
+              </Link>
+            ) : (
+              <UserSettingsMenu />
+            )}
           </div>
         </div>
       </div>
@@ -48,10 +55,10 @@ const Navigation = () => {
         <ul className="menu bg-primary min-h-full w-80 p-4 text-primary-content">
           {/* Sidebar content here */}
           <li>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/applications">Applications</a>
+            <Link to="/applications">Applications</Link>
           </li>
         </ul>
       </div>
