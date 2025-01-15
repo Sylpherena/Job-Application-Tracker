@@ -19,6 +19,10 @@ import {
 } from "firebase/firestore";
 import { indexedDBFileRepo } from "../indexedDB/fileRepository";
 import { db } from "./firebaseConnection";
+import {
+  ApplicationSortableField,
+  SortDirection,
+} from "../../domain/models/application";
 
 export const firebaseApplicationRepo: ApplicationRepository = {
   addApplication: async function (
@@ -61,15 +65,19 @@ export const firebaseApplicationRepo: ApplicationRepository = {
     const docRef = await addDoc(collection(db, "applications"), newApplication);
     return docRef.id;
   },
-
+  //TODO improve sort
   getPaginatedApplications: async function (
     page: number,
-    limit: number
+    limit: number,
+    sort: { sortBy: ApplicationSortableField; directionStr: SortDirection } = {
+      sortBy: "applicationDate",
+      directionStr: "desc",
+    }
   ): Promise<PaginatedApplication> {
     const applicationsRef = collection(db, "applications");
     const q = query(
       applicationsRef,
-      orderBy("applicationDate"),
+      orderBy(sort.sortBy, sort.directionStr),
       firebaseLimit(limit)
     );
 
@@ -89,7 +97,7 @@ export const firebaseApplicationRepo: ApplicationRepository = {
     if (page > 1) {
       const previousPageQuery = query(
         applicationsRef,
-        orderBy("applicationDate"),
+        orderBy(sort.sortBy, sort.directionStr),
         firebaseLimit((page - 1) * limit)
       );
       const previousPageSnapshot = await getDocs(previousPageQuery);
@@ -100,7 +108,7 @@ export const firebaseApplicationRepo: ApplicationRepository = {
     const currentPageQuery = lastVisible
       ? query(
           applicationsRef,
-          orderBy("applicationDate"),
+          orderBy(sort.sortBy, sort.directionStr),
           startAfter(lastVisible),
           firebaseLimit(limit)
         )

@@ -7,14 +7,27 @@ import Pagination from "./Pagination";
 import FileModal, { FileModalState, FileType } from "./FileModal";
 import { useSelect } from "./useSelect";
 import { CircleMinus } from "lucide-react";
+import {
+  ApplicationSortableField,
+  SortDirection,
+} from "../../../../domain/models/application";
+import FilterButton from "../Filter/FilterButton";
+import FilterRow from "../Filter/FilterRow";
 
 export default function List() {
   const [page, setPage] = useState(1);
   const [modalState, setModalState] = useState<FileModalState | null>(null);
+  const [sort, setSort] = useState<
+    | {
+        sortBy: ApplicationSortableField;
+        directionStr: SortDirection;
+      }
+    | undefined
+  >(undefined);
 
   const limit = 5; // Number of items per page
 
-  const { data, isLoading } = usePaginatedApplications(page, limit);
+  const { data, isLoading } = usePaginatedApplications(page, limit, sort);
 
   const ids = useMemo(() => {
     if (isLoading || !data?.applications) {
@@ -42,13 +55,25 @@ export default function List() {
     setModalState(state);
   };
 
+  const handleSort = (sortBy: ApplicationSortableField) => {
+    setSort((prev) => {
+      if (prev?.sortBy === sortBy) {
+        return prev.directionStr === "asc"
+          ? { sortBy, directionStr: "desc" }
+          : undefined;
+      } else {
+        return { sortBy, directionStr: "asc" };
+      }
+    });
+  };
+
   return (
     <>
-      <div className="card w-full h-full min-h-fit bg-primary bg-opacity-30 border border-opacity-10 overflow-hidden">
+      <div className="card w-full h-full min-h-fit bg-primary bg-opacity-80 border border-opacity-10 overflow-hidden">
         <div className="flex w-full justify-between p-4">
-          <h2 className="card-title">Applications</h2>
+          <h2 className="card-title text-primary-content">Applications</h2>
           <span className="flex gap-2">
-            {selectedIds.length > 0 && (
+            {selectedIds.length > 0 ? (
               <button
                 aria-label={"Delete " + selectedIds.length + "applications"}
                 className="btn btn-error gap-1"
@@ -57,15 +82,22 @@ export default function List() {
                 {"(" + selectedIds.length + ")"}
                 <CircleMinus />
               </button>
+            ) : (
+              <>
+                <FilterButton />
+                <ModalButton />
+              </>
             )}
-            <ModalButton />
           </span>
         </div>
+        <FilterRow />
         <div className="overflow-x-auto bg-base-100">
           <table className="table min-h-[29rem]">
             <TableHeader
+              onSort={handleSort}
               onSelectAll={handleSelectAll}
               selectAllState={selectAllState}
+              sortData={sort}
             />
             <tbody>
               {isLoading && (

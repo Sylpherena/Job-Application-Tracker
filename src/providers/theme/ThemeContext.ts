@@ -4,6 +4,6 @@ import { DaisyUITheme } from "./themes";
 export const ThemeContext = createContext<{
   theme: DaisyUITheme;
   setTheme: (theme: DaisyUITheme) => void;
-}>({ theme: "light", setTheme: () => null });
+}>({ theme: "cupcake", setTheme: () => null });
 
 export const useTheme = () => useContext(ThemeContext);

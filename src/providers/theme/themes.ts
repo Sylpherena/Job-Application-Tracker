@@ -1,6 +1,4 @@
 export type DaisyUITheme =
-  | "light"
-  | "dark"
   | "cupcake"
   | "bumblebee"
   | "emerald"
@@ -33,8 +31,6 @@ export type DaisyUITheme =
   | "sunset";
 
 export const daisyUIThemes = [
-  "light",
-  "dark",
   "cupcake",
   "bumblebee",
   "emerald",

@@ -2,13 +2,21 @@ import { useQuery } from "@tanstack/react-query";
 import { FileModalState } from "./FileModal";
 import { useDataProvider } from "../../../../providers/data/DataContext";
 import { FileRecord } from "../../../../domain/models";
+import {
+  ApplicationSortableField,
+  SortDirection,
+} from "../../../../domain/models/application";
 
-export const usePaginatedApplications = (page: number, limit: number) => {
+export const usePaginatedApplications = (
+  page: number,
+  limit: number,
+  sort?: { sortBy: ApplicationSortableField; directionStr: SortDirection }
+) => {
   const { getPaginatedApplications } = useDataProvider();
 
   return useQuery({
-    queryKey: ["applications", page, limit],
-    queryFn: () => getPaginatedApplications(page, limit),
+    queryKey: ["applications", page, limit, sort?.sortBy, sort?.directionStr],
+    queryFn: () => getPaginatedApplications(page, limit, sort),
   });
 };
 

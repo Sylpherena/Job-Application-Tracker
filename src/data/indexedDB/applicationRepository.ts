@@ -8,6 +8,10 @@ import { delay } from "../../utils/utils";
 import { databaseConnection } from "./databaseConnection";
 import { v4 as uuid } from "uuid";
 import { indexedDBFileRepo } from "./fileRepository";
+import {
+  ApplicationSortableField,
+  SortDirection,
+} from "../../domain/models/application";
 
 export const indexedDBApplicationRepo: ApplicationRepository = {
   addApplication: async function (
@@ -53,14 +57,18 @@ export const indexedDBApplicationRepo: ApplicationRepository = {
   },
   getPaginatedApplications: async function (
     page: number,
-    limit: number
+    limit: number,
+    sort: { sortBy: ApplicationSortableField; directionStr: SortDirection } = {
+      sortBy: "applicationDate",
+      directionStr: "desc",
+    }
   ): Promise<PaginatedApplication> {
     const db = await databaseConnection;
     const store = db
       .transaction("applications", "readonly")
       .objectStore("applications");
 
-    const totalApplications = await store.count(); // Total number of applications
+    const totalApplications = await store.count();
 
     if (totalApplications === 0) {
       await delay(500);
@@ -71,7 +79,8 @@ export const indexedDBApplicationRepo: ApplicationRepository = {
         totalApplications: 0,
       };
     }
-    const totalPages = Math.ceil(totalApplications / limit); // Total pages based on limit
+
+    const totalPages = Math.ceil(totalApplications / limit);
 
     if (page < 1 || page > totalPages) {
       throw new Error(
@@ -79,20 +88,26 @@ export const indexedDBApplicationRepo: ApplicationRepository = {
       );
     }
 
-    const offset = (page - 1) * limit;
-    const applications: Application[] = [];
-
+    const allApplications: Application[] = [];
     let cursor = await store.openCursor();
 
-    let currentIndex = 0;
     while (cursor) {
-      if (currentIndex >= offset && currentIndex < offset + limit) {
-        applications.push(cursor.value);
-      }
-      currentIndex++;
-      if (applications.length >= limit) break;
+      allApplications.push(cursor.value);
       cursor = await cursor.continue();
     }
+
+    // Sorting logic
+    allApplications.sort((a, b) => {
+      const fieldA = a[sort.sortBy];
+      const fieldB = b[sort.sortBy];
+      if (fieldA < fieldB) return sort.directionStr === "asc" ? -1 : 1;
+      if (fieldA > fieldB) return sort.directionStr === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    // Pagination logic
+    const offset = (page - 1) * limit;
+    const applications = allApplications.slice(offset, offset + limit);
 
     await delay(500);
     return {

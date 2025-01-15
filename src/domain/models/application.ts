@@ -39,3 +39,12 @@ export interface PaginatedApplication {
   totalPages: number;
   totalApplications: number;
 }
+
+export type ApplicationSortableField =
+  | "applicationDate"
+  | "company"
+  | "position"
+  | "country"
+  | "location";
+
+export type SortDirection = "asc" | "desc";

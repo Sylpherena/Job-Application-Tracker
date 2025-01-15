@@ -10,7 +10,7 @@ export default function ThemeProvider(props: React.PropsWithChildren) {
   const { children } = props;
 
   const [themeMode, setThemeMode] = useState<DaisyUITheme>(() => {
-    return (localStorage.getItem("theme") || "light") as DaisyUITheme;
+    return (localStorage.getItem("theme") || "cupcake") as DaisyUITheme;
   });
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function ThemeProvider(props: React.PropsWithChildren) {
       setThemeMode(themeMode);
     } else {
       console.warn(`Invalid theme selected: ${themeMode}`);
-      setThemeMode("light");
+      setThemeMode("cupcake");
     }
     // Apply the current theme to the document's root element
     document.documentElement.setAttribute("data-theme", themeMode);

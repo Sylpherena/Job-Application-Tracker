@@ -11,6 +11,7 @@ export interface InputProps
   Icon?: LucideIcon;
   inputSize?: "sm" | "md";
   endSlot?: JSX.Element;
+  hideErrorText?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -26,6 +27,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputSize = "md",
       endSlot,
       placeholder,
+      hideErrorText = false,
       ...rest
     } = props;
 
@@ -39,7 +41,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
         <label
-          className={clsx("grow flex items-center gap-2", {
+          className={clsx("text-base-content grow flex items-center gap-2", {
             ["input input-bordered input-primary input-" + inputSize]:
               type !== "file",
             ["file-input file-input-bordered file-input-primary file-input-" +
@@ -66,16 +68,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
           {endSlot && endSlot}
         </label>
-        <div className="label p-1">
-          <span
-            className={clsx("label-text-alt text-error opacity-0", {
-              ["opacity-100"]: !!errorText,
-            })}
-            id={id + "-error"}
-          >
-            {errorText}
-          </span>
-        </div>
+        {!hideErrorText && (
+          <div className="label p-1">
+            <span
+              className={clsx("label-text-alt text-error opacity-0", {
+                ["opacity-100"]: !!errorText,
+              })}
+              id={id + "-error"}
+            >
+              {errorText}
+            </span>
+          </div>
+        )}
       </label>
     );
   }

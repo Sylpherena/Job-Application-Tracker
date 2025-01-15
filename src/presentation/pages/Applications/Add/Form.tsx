@@ -84,18 +84,18 @@ export default function Form(props: { onSubmit: () => void }) {
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">
         <Input
-          id="add-form-position"
-          label="Position"
-          errorText={errors.position?.message}
-          inputSize="sm"
-          {...register("position")}
-        />
-        <Input
           id="add-form-company"
           label="Company"
           errorText={errors.company?.message}
           inputSize="sm"
           {...register("company")}
+        />
+        <Input
+          id="add-form-position"
+          label="Position"
+          errorText={errors.position?.message}
+          inputSize="sm"
+          {...register("position")}
         />
       </div>
       <div className="flex flex-col sm:flex-row w-full gap-2 sm:gap-4">

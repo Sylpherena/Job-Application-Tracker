@@ -1,3 +1,6 @@
+import themes from "daisyui/src/theming/themes";
+const { themeOverrides, forestOverride } = require("./theme-overrides.js");
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -7,7 +10,21 @@ export default {
   plugins: [require("daisyui")],
   // daisyUI config (optional - here are the default values)
   daisyui: {
-    themes: true, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    themes: [
+      "cupcake",
+      "retro",
+      "valentine",
+      "lofi",
+      "pastel",
+      "wireframe",
+      "black",
+      "cmyk",
+      "autumn",
+      "acid",
+      "lemonade",
+      "nord",
+      { ...themeOverrides },
+    ],
     darkTheme: "dark", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
     styled: true, // include daisyUI colors and design decisions for all components
