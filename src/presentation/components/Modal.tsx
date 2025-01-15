@@ -18,8 +18,14 @@ export default function Modal(props: ModalProps) {
   } = props;
 
   return (
-    <dialog className={clsx("modal", isOpen && "modal-open", className)}>
-      <div className="modal-box p-4 sm:p-6 relative">
+    <dialog
+      className={clsx(
+        "modal modal-bottom sm:modal-middle",
+        isOpen && "modal-open",
+        className
+      )}
+    >
+      <div className="modal-box p-4 sm:p-6">
         <button
           aria-label="Return to previous page"
           className="btn btn-sm btn-circle absolute right-2 top-2"

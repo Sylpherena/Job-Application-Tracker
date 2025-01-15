@@ -14,7 +14,7 @@ export default function ModalButton() {
     <>
       <button
         aria-label="Add Application"
-        className="btn btn-primary"
+        className="btn btn-accent"
         onClick={() => setModalState(true)}
       >
         <span className="hidden sm:flex">Add Application</span>

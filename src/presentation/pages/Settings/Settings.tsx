@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Settings() {
   return (
-    <div className="flex flex-1 bg-secondary/30 overflow-auto p-4 sm:p-8 justify-center w-full h-max">
+    <div className="flex flex-1 bg-secondary/80 overflow-auto p-4 sm:p-8 justify-center w-full h-max">
       <div className="card border border-primary bg-base-100 rounded-btn overflow-hidden w-full lg:mx-16 gap-4 max-w-5xl">
         <div className="drawer lg:drawer-open">
           <input
