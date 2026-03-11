@@ -53,14 +53,18 @@ export default function Signup() {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           id="sign-up-name"
+          aria-label="Sign up name"
           Icon={UserRound}
           placeholder="Name"
+          autoComplete="username"
           type="text"
           errorText={errors.name?.message}
           {...register("name")}
         />
         <Input
           id="sign-up-email"
+          aria-label="Sign up email"
+          autoComplete="email"
           Icon={Mail}
           placeholder="Email"
           type="text"
@@ -69,6 +73,8 @@ export default function Signup() {
         />
         <PasswordInput
           id="sign-up-password"
+          autoComplete="new-password"
+          aria-label="Sign up password"
           errorText={errors.password?.message}
           {...register("password")}
         />

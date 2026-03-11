@@ -61,6 +61,8 @@ export default function ForgotPassword() {
           </p>
           <Input
             id="forgot-password-email"
+            aria-label="Email to reset password"
+            autoComplete="email"
             Icon={Mail}
             placeholder="Email"
             type="text"

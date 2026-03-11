@@ -12,6 +12,7 @@ export interface InputProps
   inputSize?: "sm" | "md";
   endSlot?: JSX.Element;
   hideErrorText?: boolean;
+  centerLabel?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -28,19 +29,24 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       endSlot,
       placeholder,
       hideErrorText = false,
+      centerLabel = false,
       ...rest
     } = props;
 
-    const ariaName = label ?? placeholder;
-
     return (
-      <label className={clsx("form-control grow", className)}>
+      <div className={clsx("form-control grow", className)}>
         {label && (
-          <div className="label font-semibold">
-            <span className="label-text">{label}</span>
-          </div>
+          <label
+            className={clsx(
+              "label font-semibold label-text",
+              centerLabel && "block"
+            )}
+            htmlFor={id + "-input"}
+          >
+            {label}
+          </label>
         )}
-        <label
+        <div
           className={clsx("text-base-content grow flex items-center gap-2", {
             ["input input-bordered input-primary input-" + inputSize]:
               type !== "file",
@@ -56,7 +62,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             />
           )}
           <input
-            aria-label={"Enter " + ariaName}
             aria-invalid={!!errorText}
             aria-errormessage={id + "-error"}
             ref={ref}
@@ -67,7 +72,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...rest}
           />
           {endSlot && endSlot}
-        </label>
+        </div>
         {!hideErrorText && (
           <div className="label p-1">
             <span
@@ -80,7 +85,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             </span>
           </div>
         )}
-      </label>
+      </div>
     );
   }
 );

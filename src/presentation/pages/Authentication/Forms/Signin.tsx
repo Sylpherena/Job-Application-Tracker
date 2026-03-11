@@ -50,7 +50,9 @@ export default function Signin() {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           id="sign-in-email"
+          aria-label="Sign in email"
           Icon={Mail}
+          autoComplete="email"
           placeholder="Email"
           type="text"
           errorText={errors.email?.message}
@@ -58,6 +60,8 @@ export default function Signin() {
         />
         <PasswordInput
           id="sign-in-password"
+          autoComplete="current-password"
+          aria-label="Sign in password"
           errorText={errors.password?.message}
           {...register("password")}
         />

@@ -102,6 +102,7 @@ export default function Form(props: { onSubmit: () => void }) {
         <Input
           id="add-form-country"
           label="Country"
+          autoComplete="country-name"
           errorText={errors.country?.message}
           inputSize="sm"
           {...register("country")}
